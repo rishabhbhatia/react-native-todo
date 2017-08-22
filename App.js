@@ -33,7 +33,6 @@ class App extends React.Component {
 
   render() {
     const {todos} = this.props;
-    console.log(this.props);
 
     return (
       <View style={styles.container}>
