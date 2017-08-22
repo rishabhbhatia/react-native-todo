@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Platform } from 'react-native';
+import { connect } from 'react-redux'
 
 import todoStore from './app/redux/store/TodoStore'
 
@@ -10,30 +11,13 @@ import Input from './app/components/Input';
 import List from './app/components/List';
 
 
-export default class App extends React.Component {
-
-  componentWillMount() {
-    const {store} = this.props;
-
-    const {todos} = store.getState();
-    this.setState({todos})
-
-    this.unsubscribe = store.subscribe(() => {
-      const {todos} = store.getState();
-      this.setState({todos});
-    })
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe()
-  }
+class App extends React.Component {
 
   onAddTodo = (todo) => {
-    const {store} = this.props;
-    console.log(store);
+    const {dispatch} = this.props;
 
     let add_todo_action = TODO_ACTIONS.add_todo_action(todo);
-    todoStore.dispatch(add_todo_action);
+    dispatch(add_todo_action);
   }
 
   onTodoClicked = (index) => {
@@ -41,12 +25,15 @@ export default class App extends React.Component {
   }
 
   onDeleteTodo = (index) => {
+    const {dispatch} = this.props;
+
     let todo_delete_action = TODO_ACTIONS.delete_todo_action(index);
-    todoStore.dispatch(todo_delete_action);
+    dispatch(todo_delete_action);
   }
 
   render() {
-    const {todos} = this.state;
+    const {todos} = this.props;
+    console.log(this.props);
 
     return (
       <View style={styles.container}>
@@ -69,3 +56,9 @@ const styles = StyleSheet.create({
     marginTop: (Platform.OS === 'ios') ? 20 : 0,
   },
 });
+
+const mapStateToProps = (state) => ({
+  todos: state.todos,
+})
+
+export default connect(mapStateToProps)(App)
