@@ -8,6 +8,13 @@ var TODO_ACTIONS = {
       payload: todo
     };
   },
+  delete_todo: 'DELETE_TODO',
+  delete_todo_action(index) {
+    return {
+      type: this.delete_todo,
+      payload: index
+    };
+  }
 }
 
 export default TODO_ACTIONS;

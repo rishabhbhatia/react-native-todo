@@ -24,6 +24,10 @@ export default class App extends React.Component {
     })
   }
 
+  componentWillUnmount() {
+    this.unsubscribe()
+  }
+
   onAddTodo = (todo) => {
     const {store} = this.props;
     console.log(store);
@@ -33,7 +37,12 @@ export default class App extends React.Component {
   }
 
   onTodoClicked = (index) => {
-    console.log('Todo clicked:', index);
+    this.onDeleteTodo(index);
+  }
+
+  onDeleteTodo = (index) => {
+    let todo_delete_action = TODO_ACTIONS.delete_todo_action(index);
+    todoStore.dispatch(todo_delete_action);
   }
 
   render() {
