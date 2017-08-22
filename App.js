@@ -21,7 +21,7 @@ class App extends React.Component {
   }
 
   onTodoClicked = (index) => {
-    this.onDeleteTodo(index);
+    console.log('onTodoClicked', index);
   }
 
   onDeleteTodo = (index) => {
@@ -29,6 +29,14 @@ class App extends React.Component {
 
     let todo_delete_action = TODO_ACTIONS.delete_todo_action(index);
     dispatch(todo_delete_action);
+  }
+
+  onEditTodo = (index) => {
+    console.log('onEditTodo', index);
+  }
+
+  onCompletedTodo = (index) => {
+    console.log('onCompletedTodo', index);
   }
 
   render() {
@@ -44,6 +52,8 @@ class App extends React.Component {
         <List
           list={todos}
           onPressItem={this.onTodoClicked}
+          onDeleteTodo={this.onDeleteTodo}
+          onEditTodo={this.onEditTodo}
         />
       </View>
     );
