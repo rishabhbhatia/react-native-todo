@@ -83,6 +83,7 @@ class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     marginTop: (Platform.OS === 'ios') ? 20 : 0,
+    flex: 1
   },
 });
 

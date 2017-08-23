@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, TouchableOpacity, Text, TextInput, StyleSheet } from 'react-native'
+import { View, ScrollView, TouchableOpacity, Text, TextInput, StyleSheet } from 'react-native'
 
 import { CheckBox } from 'react-native-elements'
 
@@ -45,14 +45,17 @@ export default class List extends Component {
     const {todos} = this.props
 
     return (
-      <View>
+      <ScrollView>
         {todos.map(this.renderItem)}
-      </View>
+      </ScrollView>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  contentContainer: {
+    flex: 1
+  },
   item: {
     backgroundColor: 'whitesmoke',
     marginBottom: 5,
