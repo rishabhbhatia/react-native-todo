@@ -14,7 +14,28 @@ var TODO_ACTIONS = {
       type: this.delete_todo,
       payload: index
     };
-  }
+  },
+  edit_todo_mode_on: 'EDIT_TODO_MODE_ON',
+  edit_todo_mode_on_action(index) {
+    return {
+      type: this.edit_todo_mode_on,
+      payload: { index }
+    };
+  },
+  edit_todo_mode_off: 'EDIT_TODO_MODE_OFF',
+  edit_todo_mode_off_action() {
+    return {
+      type: this.edit_todo_mode_off,
+      payload: { index: -1}
+    };
+  },
+  todo_edited: 'TODO_EDITED',
+  todo_edited_action(newText, index) {
+    return {
+      type: this.todo_edited,
+      payload: { newText, index}
+    };
+  },
 }
 
 export default TODO_ACTIONS;

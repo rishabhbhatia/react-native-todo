@@ -32,15 +32,31 @@ class App extends React.Component {
   }
 
   onEditTodo = (index) => {
-    console.log('onEditTodo', index);
+    const {dispatch} = this.props;
+
+    let edit_todo_mode_on_action = TODO_ACTIONS.edit_todo_mode_on_action(index);
+    dispatch(edit_todo_mode_on_action);
   }
 
-  onCompletedTodo = (index) => {
-    console.log('onCompletedTodo', index);
+  onTodoEdited = (newText, index) => {
+    const {dispatch} = this.props;
+
+    let edit_todo_mode_off_action = TODO_ACTIONS.edit_todo_mode_off_action();
+    dispatch(edit_todo_mode_off_action);
+
+    let todo_edited_action = TODO_ACTIONS.todo_edited_action(newText, index);
+    dispatch(todo_edited_action);
+  }
+
+  onTodoCompleted = (index) => {
+    console.log('onTodoCompleted', index);
   }
 
   render() {
     const {todos} = this.props;
+    const {editModeIndex} = this.props;
+
+    console.log(this.props);
 
     return (
       <View style={styles.container}>
@@ -51,9 +67,12 @@ class App extends React.Component {
         />
         <List
           list={todos}
+          editModeIndex={editModeIndex}
           onPressItem={this.onTodoClicked}
           onDeleteTodo={this.onDeleteTodo}
           onEditTodo={this.onEditTodo}
+          onTodoEdited={this.onTodoEdited}
+          onTodoCompleted={this.onTodoCompleted}
         />
       </View>
     );
@@ -68,6 +87,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   todos: state.todos,
+  editModeIndex: state.editModeIndex,
 })
 
 export default connect(mapStateToProps)(App)

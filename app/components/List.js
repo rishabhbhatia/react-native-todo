@@ -5,16 +5,23 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 export default class List extends Component {
 
   renderItem = (text, i) => {
+    const {editModeIndex} = this.props;
+    const index = editModeIndex.index;
+
     const {onPressItem} = this.props;
     const {onDeleteTodo} = this.props;
     const {onEditTodo} = this.props;
+    const {onTodoEdited} = this.props;
+    const {onTodoCompleted} = this.props;
 
     return (
       <TouchableOpacity
         key={i}
         style={styles.item}
         onPress={() => onPressItem(i)} >
-          <Text>{text}</Text>
+          {index == i ? <TextInput style={{ flex:1 }} defaultValue={text}
+             onSubmitEditing={(event) => onTodoEdited(event.nativeEvent.text,i)} /> : <Text>{text}</Text>}
+
           <View style={styles.actions}>
             <Icon onPress={() => onEditTodo(i)} style={styles.icon} name="pencil" size={15} />
             <Icon onPress={() => onDeleteTodo(i)} style={styles.icon} name="trash" size={15} />
@@ -25,6 +32,7 @@ export default class List extends Component {
 
   render() {
     const {list} = this.props
+    console.log('list render:', this.props);
 
     return (
       <View>
