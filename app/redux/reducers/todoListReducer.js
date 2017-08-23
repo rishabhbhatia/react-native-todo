@@ -1,8 +1,9 @@
-import TODO_ACTIONS from '../actions/TodoActions';
+import TODO_ACTIONS from '../actions/TodoActions'
+import Todo from '../../models/Todo'
 
 // Define intial state of todos list
 const initialState = {
-  todos: ['Todo one', 'Todo two', 'Todo three'],
+  todos: [new Todo('Todo one'), new Todo('Todo two'), new Todo('Todo three')],
   editModeIndex: { index: -1}
 }
 
@@ -37,10 +38,31 @@ const todoReducer = (state = initialState, action) => {
           }
         break;
       case TODO_ACTIONS.todo_edited:
-          todos[payload.index] = payload.newText;
           return {
             ...state,
-            todos
+            todos: todos.map((todo, index) => {
+              if (index === payload.index) {
+                return {
+                  ...todo,
+                  text: payload.newText
+                }
+              }
+              return todo
+            })
+          }
+        break;
+      case TODO_ACTIONS.todo_completion_toggled:
+          return {
+            ...state,
+            todos: todos.map((todo, index) => {
+              if (index === payload.index) {
+                return {
+                  ...todo,
+                  isChecked: !todo.isChecked
+                }
+              }
+              return todo
+            })
           }
         break;
       default: return state;

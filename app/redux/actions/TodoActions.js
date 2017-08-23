@@ -1,11 +1,11 @@
-// Define actions to be performed on a Todo
+import Todo from '../../models/Todo'
 
 var TODO_ACTIONS = {
   add_todo: 'ADD_TODO',
-  add_todo_action(todo) {
+  add_todo_action(text) {
     return {
       type: this.add_todo,
-      payload: todo
+      payload: new Todo(text)
     };
   },
   delete_todo: 'DELETE_TODO',
@@ -19,14 +19,14 @@ var TODO_ACTIONS = {
   edit_todo_mode_on_action(index) {
     return {
       type: this.edit_todo_mode_on,
-      payload: { index }
+      payload: {index}
     };
   },
   edit_todo_mode_off: 'EDIT_TODO_MODE_OFF',
   edit_todo_mode_off_action() {
     return {
       type: this.edit_todo_mode_off,
-      payload: { index: -1}
+      payload: {index: -1}
     };
   },
   todo_edited: 'TODO_EDITED',
@@ -34,6 +34,13 @@ var TODO_ACTIONS = {
     return {
       type: this.todo_edited,
       payload: { newText, index}
+    };
+  },
+  todo_completion_toggled: 'TODO_COMPLETION_TOGGLED',
+  todo_completion_toggled_action(index) {
+    return {
+      type: this.todo_completion_toggled,
+      payload: {index}
     };
   },
 }

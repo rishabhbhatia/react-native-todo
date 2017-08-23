@@ -48,15 +48,16 @@ class App extends React.Component {
     dispatch(todo_edited_action);
   }
 
-  onTodoCompleted = (index) => {
-    console.log('onTodoCompleted', index);
+  onTodoCompletionToggled = (index) => {
+    const {dispatch} = this.props;
+
+    let todo_completion_toggled_action = TODO_ACTIONS.todo_completion_toggled_action(index);
+    dispatch(todo_completion_toggled_action);
   }
 
   render() {
     const {todos} = this.props;
     const {editModeIndex} = this.props;
-
-    console.log(this.props);
 
     return (
       <View style={styles.container}>
@@ -66,13 +67,13 @@ class App extends React.Component {
           onSubmitEditing={this.onAddTodo}
         />
         <List
-          list={todos}
+          todos={todos}
           editModeIndex={editModeIndex}
           onPressItem={this.onTodoClicked}
           onDeleteTodo={this.onDeleteTodo}
           onEditTodo={this.onEditTodo}
           onTodoEdited={this.onTodoEdited}
-          onTodoCompleted={this.onTodoCompleted}
+          onTodoCompletionToggled={this.onTodoCompletionToggled}
         />
       </View>
     );
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   todos: state.todos,
-  editModeIndex: state.editModeIndex,
+  editModeIndex: state.editModeIndex
 })
 
 export default connect(mapStateToProps)(App)
