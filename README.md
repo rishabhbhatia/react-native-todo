@@ -1,7 +1,7 @@
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 
 Demo  
-![alt text](http://res.cloudinary.com/randomstuffibuy/image/upload/v1503397710/github/todo-mobile/todo-app-proto-one.gif)
+![alt text](http://res.cloudinary.com/randomstuffibuy/image/upload/v1503487525/github/todo-mobile/todo-app-proto-two.gif)
 
 Below you'll find information about performing common tasks. The most recent version of this guide is available [here](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/README.md).
 
