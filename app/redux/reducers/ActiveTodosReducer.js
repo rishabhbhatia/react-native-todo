@@ -1,43 +1,43 @@
-import TODO_ACTIONS from '../actions/TodoActions'
 import Todo from '../../models/Todo'
+import ACTIVE_TODO_ACTIONS from '../actions/ActiveTodoActions'
 
-// Define intial state of todos list
-const initialState = {
+
+const activeTodosInitialState = {
   todos: [new Todo('Todo one'), new Todo('Todo two'), new Todo('Todo three')],
-  editModeIndex: { index: -1}
+  editModeIndex: { index: -1},
 }
 
-const todoReducer = (state = initialState, action) => {
+const activeTodosReducer = (state = activeTodosInitialState, action) => {
 
     const {todos} = state;
     const {type, payload} = action;
 
     switch (type) {
-      case TODO_ACTIONS.add_todo:
+      case ACTIVE_TODO_ACTIONS.add_todo:
           return {
             ...state,
             todos: [payload, ...todos]
           }
         break;
-      case TODO_ACTIONS.delete_todo:
+      case ACTIVE_TODO_ACTIONS.delete_todo:
           return {
             ...state,
             todos: todos.filter((todo, i) => payload != i)
           }
         break;
-      case TODO_ACTIONS.edit_todo_mode_on:
+      case ACTIVE_TODO_ACTIONS.edit_todo_mode_on:
           return {
             ...state,
             editModeIndex: payload
           }
         break;
-      case TODO_ACTIONS.edit_todo_mode_off:
+      case ACTIVE_TODO_ACTIONS.edit_todo_mode_off:
           return {
             ...state,
             editModeIndex: payload
           }
         break;
-      case TODO_ACTIONS.todo_edited:
+      case ACTIVE_TODO_ACTIONS.todo_edited:
           return {
             ...state,
             todos: todos.map((todo, index) => {
@@ -51,7 +51,7 @@ const todoReducer = (state = initialState, action) => {
             })
           }
         break;
-      case TODO_ACTIONS.todo_completion_toggled:
+      case ACTIVE_TODO_ACTIONS.todo_completion_toggled:
           return {
             ...state,
             todos: todos.map((todo, index) => {
@@ -70,4 +70,4 @@ const todoReducer = (state = initialState, action) => {
     }
 }
 
-export default todoReducer;
+export default activeTodosReducer;

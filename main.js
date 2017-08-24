@@ -1,7 +1,7 @@
 import React from 'react'
 import { AppRegistry, View } from 'react-native'
+
 import { Provider } from 'react-redux'
-import { persistStore, autoRehydrate } from 'redux-persist'
 
 import App from './App'
 import todoStore from './app/redux/store/TodoStore'

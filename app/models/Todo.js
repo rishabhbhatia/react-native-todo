@@ -3,6 +3,7 @@ class Todo {
 
   constructor(text) {
     this.text = text;
+    this.type = 'active'; // types: active, completed; default state: active
     this.isChecked = false; // treating checked as complete for phase one
   }
 
@@ -11,6 +12,12 @@ class Todo {
   }
 
   setText = (text) => this.text = text;
+
+  getType = () => {
+    return this.type;
+  }
+
+  setType = (type) => this.type = type;
 
   getChecked = () => {
     return this.isChecked;
