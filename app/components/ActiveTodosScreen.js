@@ -47,6 +47,7 @@ class ActiveTodosScreen extends Component {
       </View>
     );
   }
+
 }
 
 const styles = StyleSheet.create({
