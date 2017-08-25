@@ -29,7 +29,7 @@ class ActiveTodosScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <Title>My Todo List!</Title>
+        {Title('My Todo List!')}
         <Input
           placeholder={'Type a todo, then hit enter!'}
           onSubmitEditing={activeTodosHelper.onAddTodo.bind(this)}

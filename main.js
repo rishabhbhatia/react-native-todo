@@ -4,10 +4,10 @@ import { AppRegistry, View } from 'react-native'
 import { Provider } from 'react-redux'
 
 import App from './App'
-import todoStore from './app/redux/store/TodoStore'
+import todosStore from './app/redux/store/TodosStore'
 
 const AppWithStore = () => (
-  <Provider store={todoStore}>
+  <Provider store={todosStore}>
     <App />
   </Provider>
 )

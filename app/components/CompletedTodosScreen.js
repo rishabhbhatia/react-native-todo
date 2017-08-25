@@ -21,7 +21,7 @@ class CompletedTodosScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <Title>Compeleted Todos!</Title>
+        {Title('Compeleted Todos!')}
         <List
           todos={todos}
           type={type}

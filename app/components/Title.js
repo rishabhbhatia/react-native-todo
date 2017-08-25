@@ -1,17 +1,13 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 
-export default class Title extends Component {
+const Title = (title) => {
 
-  render() {
-    const {children} = this.props
-
-    return (
-      <View style={styles.header}>
-        <Text style={styles.title}>{children}</Text>
-      </View>
-    )
-  }
+  return (
+    <View style={styles.header}>
+      <Text style={styles.title}>{title}</Text>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -24,3 +20,5 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 })
+
+export default Title;
