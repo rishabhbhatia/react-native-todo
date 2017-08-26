@@ -36,7 +36,7 @@ const todosReducer = (state = initialState, action) => {
             ...state,
             active: {
               ...state.active,
-              todos: [payload, ...todos]
+              todos: [payload, ...activeTodos]
             }
           }
         break;
@@ -93,12 +93,16 @@ const todosReducer = (state = initialState, action) => {
           }
         break;
       case TODO_ACTIONS.todo_completed: // change logic // delete todo from active todos and add to completed todos
+
+          let completedTodo;
+
           return {
             ...state,
             active: {
               ...state.active,
               todos: activeTodos.map((todo, index) => {
                 if (index === payload.index) {
+                  completedTodo = todo;
                   return {
                     ...todo,
                     isChecked: !todo.isChecked
@@ -106,6 +110,9 @@ const todosReducer = (state = initialState, action) => {
                 }
                 return todo
               }),
+            },
+            completed: {
+              todos: [completedTodo, ...completedTodos]
             }
           }
         break;
