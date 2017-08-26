@@ -50,8 +50,10 @@ const todosHelper = {
     let todo_completed_action = TODO_ACTIONS.todo_completed_action(index);
     dispatch(todo_completed_action);
 
-    let delete_active_todo_action = TODO_ACTIONS.delete_active_todo_action(index);
-    dispatch(delete_active_todo_action);
+    setTimeout(() => {
+      let delete_active_todo_action = TODO_ACTIONS.delete_active_todo_action(index);
+      dispatch(delete_active_todo_action);
+    }, 300);
   },
 }
 
