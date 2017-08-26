@@ -9,6 +9,8 @@ const activeTodosInitialState = {
 
 const activeTodosReducer = (state = activeTodosInitialState, action) => {
 
+  console.log('activeTodosReducer', state);
+
     const {todos} = state;
     const {type, payload} = action;
 

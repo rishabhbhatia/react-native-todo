@@ -3,8 +3,8 @@ import { TabBarBottom, addNavigationHelpers, TabNavigator } from 'react-navigati
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import ActiveTodosScreen from '../components/ActiveTodosScreen';
-import CompletedTodosScreen from '../components/CompletedTodosScreen';
+import ActiveTodosScreen from '../containers/ActiveTodosScreen';
+import CompletedTodosScreen from '../containers/CompletedTodosScreen';
 
 const tabBarConfig = {
   tabBarComponent: TabBarBottom,

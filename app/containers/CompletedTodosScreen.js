@@ -6,16 +6,18 @@ import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 
 import todosConfig from '../config/todosConfig';
-import completedTodosHelper from '../helpers/CompletedTodosHelper';
+import todosHelper from '../helpers/TodosHelper';
 
-import Title from './Title';
-import List from './List';
+import Title from '../components/Title';
+import List from '../components//List';
 
 class CompletedTodosScreen extends Component {
 
   render() {
-    const {completedTodosReducer} = this.props;
-    const {todos} = completedTodosReducer;
+    const {todosReducer} = this.props;
+    const {completed} = todosReducer;
+
+    const {todos} = completed;
 
     const type = todosConfig.todos.types.completed;
 
@@ -25,7 +27,7 @@ class CompletedTodosScreen extends Component {
         <List
           todos={todos}
           type={type}
-          onDeleteTodo={completedTodosHelper.onDeleteTodo.bind(this)}
+          onDeleteTodo={todosHelper.onDeleteCompletedTodo.bind(this)}
         />
       </View>
     );
@@ -41,7 +43,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  completedTodosReducer: state.completedTodosReducer,
+  todosReducer: state.todosReducer,
   nav: state.nav,
 })
 

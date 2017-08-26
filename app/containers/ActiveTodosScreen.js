@@ -6,11 +6,11 @@ import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 
 import todosConfig from '../config/todosConfig';
-import activeTodosHelper from '../helpers/ActiveTodosHelper';
+import todosHelper from '../helpers/TodosHelper';
 
-import Title from './Title';
-import Input from './Input';
-import List from './List';
+import Title from '../components/Title';
+import Input from '../components/Input';
+import List from '../components//List';
 
 class ActiveTodosScreen extends Component {
 
@@ -20,10 +20,13 @@ class ActiveTodosScreen extends Component {
   // dispatch(NavigationActions.navigate({ routeName: 'CompletedTodos' }))  // sample navigation code
 
   render() {
-    const {activeTodosReducer} = this.props;
+    console.log('ActiveTodosScreen', this.props);
 
-    const {todos} = activeTodosReducer;
-    const {editModeIndex} = activeTodosReducer;
+    const {todosReducer} = this.props;
+    const {active} = todosReducer;
+
+    const {todos} = active;
+    const {editModeIndex} = active;
 
     const type = todosConfig.todos.types.active;
 
@@ -32,17 +35,17 @@ class ActiveTodosScreen extends Component {
         {Title('My Todo List!')}
         <Input
           placeholder={'Type a todo, then hit enter!'}
-          onSubmitEditing={activeTodosHelper.onAddTodo.bind(this)}
+          onSubmitEditing={todosHelper.onAddTodo.bind(this)}
         />
         <List
           todos={todos}
           type={type}
           editModeIndex={editModeIndex.index}
-          onPressItem={activeTodosHelper.onTodoClicked.bind(this)}
-          onDeleteTodo={activeTodosHelper.onDeleteTodo.bind(this)}
-          onEditTodo={activeTodosHelper.onEditTodo.bind(this)}
-          onTodoEdited={activeTodosHelper.onTodoEdited.bind(this)}
-          onTodoCompletionToggled={activeTodosHelper.onTodoCompletionToggled.bind(this)}
+          onPressItem={todosHelper.onTodoClicked.bind(this)}
+          onDeleteTodo={todosHelper.onDeleteActiveTodo.bind(this)}
+          onEditTodo={todosHelper.onEditTodo.bind(this)}
+          onTodoEdited={todosHelper.onTodoEdited.bind(this)}
+          onTodoCompletionToggled={todosHelper.onTodoCompleted.bind(this)}
         />
       </View>
     );
@@ -58,7 +61,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  activeTodosReducer: state.activeTodosReducer,
+  todosReducer: state.todosReducer,
   nav: state.nav,
 })
 
