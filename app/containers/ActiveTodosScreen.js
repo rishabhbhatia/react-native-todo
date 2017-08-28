@@ -1,52 +1,96 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, Platform } from 'react-native';
+import { StyleSheet, FlatList, ListItem, View, Platform, TextInput } from 'react-native';
 
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'
 
 import { NavigationActions } from 'react-navigation';
 
-import todosConfig from '../config/todosConfig';
-import todosHelper from '../helpers/TodosHelper';
+import * as TodoActionCreators from '../redux/actions/TodoActionCreators';
+
+import * as Animatable from 'react-native-animatable';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { CheckBox } from 'react-native-elements';
 
 import Title from '../components/Title';
 import Input from '../components/Input';
-import List from '../components//List';
+
 
 class ActiveTodosScreen extends Component {
 
-  // let {navigation} = this.props;
-  // let {dispatch} = navigation;
-  //
-  // dispatch(NavigationActions.navigate({ routeName: 'CompletedTodos' }))  // sample navigation code
-
-  render() {
-    console.log('ActiveTodosScreen', this.props);
-
-    const {todosReducer} = this.props;
+  renderActiveTodosListItem = (value) => {
+    const {dispatch, todosReducer} = this.props;
     const {active} = todosReducer;
+    const {todos, editModeIndex} = active;
 
-    const {todos} = active;
-    const {editModeIndex} = active;
+    const todo = value.item;
+    const {text, isChecked} = todo;
 
-    const type = todosConfig.todos.types.active;
+    const {completeTodo, onTodoEdited, turnOnEditMode, deleteActiveTodo} = this.props;
+
+    console.log('renderActiveTodosListItem editModeIndex', editModeIndex.index);
+    console.log('renderActiveTodosListItem value', value.index);
+    console.log('renderActiveTodosListItem statement', editModeIndex.index == value.index);
 
     return (
-      <View style={styles.container}>
-        {Title('My Todo List!')}
+
+      <Animatable.View
+        key={todo.id}
+        ref={todo.id}
+        style={styles.item} >
+
+          <CheckBox
+            style={styles.checkbox}
+            checked={isChecked}
+            onPress={() => {
+              completeTodo(value.index);
+              deleteActiveTodo(value.index);
+            }} />
+
+          <TextInput
+             style={styles.text}
+             defaultValue={text}
+             editable={editModeIndex.index == value.index}
+             onSubmitEditing={(event) => onTodoEdited(event.nativeEvent.text, value.index)} />
+
+          <View style={styles.actions} >
+
+            <Icon
+              style={styles.icon}
+              name="pencil"
+              size={15}
+              onPress={() => turnOnEditMode(value.index)} />
+
+            <Icon
+               style={styles.icon}
+               name="trash" size={15}
+               onPress={() => deleteActiveTodo(value.index)} />
+
+          </View>
+
+      </Animatable.View>
+    );
+  }
+
+  render() {
+    const {todosReducer, addTodo} = this.props;
+    const {active} = todosReducer;
+    const {todos} = active;
+
+    return (
+      <View style={styles.container} >
+
+        { Title('My Todo List!') }
+
         <Input
           placeholder={'Type a todo, then hit enter!'}
-          onSubmitEditing={todosHelper.onAddTodo.bind(this)}
-        />
-        <List
-          todos={todos}
-          type={type}
-          editModeIndex={editModeIndex.index}
-          onPressItem={todosHelper.onTodoClicked.bind(this)}
-          onDeleteTodo={todosHelper.onDeleteActiveTodo.bind(this)}
-          onEditTodo={todosHelper.onEditTodo.bind(this)}
-          onTodoEdited={todosHelper.onTodoEdited.bind(this)}
-          onTodoCompletionToggled={todosHelper.onTodoCompleted.bind(this)}
-        />
+          onSubmitEditing={addTodo} />
+
+        <FlatList
+          data={todos}
+          renderItem={this.renderActiveTodosListItem}
+          keyExtractor={todo => todo.id} />
+
       </View>
     );
   }
@@ -58,11 +102,36 @@ const styles = StyleSheet.create({
     marginTop: (Platform.OS === 'ios') ? 20 : 0,
     flex: 1
   },
+  item: {
+    backgroundColor: 'whitesmoke',
+    padding: 15,
+    marginBottom: 5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  checkbox: {
+    marginLeft: 5,
+  },
+  text: {
+    flex: 1,
+  },
+  actions: {
+    flexDirection: 'row',
+  },
+  icon: {
+    paddingLeft: 5,
+    paddingRight: 5,
+  }
 });
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(TodoActionCreators, dispatch);
+}
 
 const mapStateToProps = (state) => ({
   todosReducer: state.todosReducer,
   nav: state.nav,
 })
 
-export default connect(mapStateToProps)(ActiveTodosScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(ActiveTodosScreen)

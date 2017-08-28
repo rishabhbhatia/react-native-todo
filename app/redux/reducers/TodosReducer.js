@@ -1,16 +1,16 @@
 import Todo from '../../models/Todo'
-import TODO_ACTIONS from '../actions/TodoActions'
+import config from '../../config'
 
-
-let todoFour = new Todo('Todo four');
+let todoFour = new Todo({ 'id': 4, 'text':'Todo four'});
 todoFour.setType('completed');
 
-let todoFive = new Todo('Todo five');
+let todoFive = new Todo({ 'id': 5, 'text':'Todo five'});
 todoFive.setType('completed');
 
 const initialState = {
   active: {
-    todos: [new Todo('Todo one'), new Todo('Todo two'), new Todo('Todo three')],
+    todos: [new Todo({ 'id': 1, 'text':'Todo one'}), new Todo({ 'id': 2, 'text':'Todo two'}),
+     new Todo({ 'id': 3, 'text':'Todo three'})],
     editModeIndex: { index: -1},
   },
   completed: {
@@ -20,8 +20,6 @@ const initialState = {
 
 const todosReducer = (state = initialState, action) => {
 
-    console.log('todosReducer', state);
-
     const {active} = state;
     const {completed} = state;
 
@@ -30,8 +28,10 @@ const todosReducer = (state = initialState, action) => {
 
     const {type, payload} = action;
 
+    const actions = config.todos.actions;
+
     switch (type) {
-      case TODO_ACTIONS.add_todo:
+      case actions.add_todo:
           return {
             ...state,
             active: {
@@ -40,7 +40,7 @@ const todosReducer = (state = initialState, action) => {
             }
           }
         break;
-      case TODO_ACTIONS.delete_active_todo:
+      case actions.delete_active_todo:
           return {
             ...state,
             active: {
@@ -49,7 +49,7 @@ const todosReducer = (state = initialState, action) => {
             }
           }
         break;
-        case TODO_ACTIONS.delete_completed_todo:
+        case actions.delete_completed_todo:
             return {
               ...state,
               completed: {
@@ -57,7 +57,9 @@ const todosReducer = (state = initialState, action) => {
               }
             }
           break;
-      case TODO_ACTIONS.edit_todo_mode_on:
+      case actions.turn_on_edit_mode:
+      console.log('turn_on_edit_mode', state);
+      console.log('turn_on_edit_mode', payload);
           return {
             ...state,
             active: {
@@ -66,7 +68,7 @@ const todosReducer = (state = initialState, action) => {
             }
           }
         break;
-      case TODO_ACTIONS.edit_todo_mode_off:
+      case actions.turn_off_edit_mode:
           return {
             ...state,
             active: {
@@ -75,7 +77,7 @@ const todosReducer = (state = initialState, action) => {
             }
           }
         break;
-      case TODO_ACTIONS.todo_edited:
+      case actions.on_todo_edited:
           return {
             ...state,
             active: {
@@ -92,7 +94,7 @@ const todosReducer = (state = initialState, action) => {
             }
           }
         break;
-      case TODO_ACTIONS.todo_completed: // change logic // delete todo from active todos and add to completed todos
+      case actions.complete_todo:
 
           let completedTodo;
 

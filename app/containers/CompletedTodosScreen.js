@@ -1,34 +1,71 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, Platform } from 'react-native';
+import { StyleSheet, FlatList, ListItem, TextInput, View, Platform } from 'react-native';
 
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'
 
 import { NavigationActions } from 'react-navigation';
 
-import todosConfig from '../config/todosConfig';
-import todosHelper from '../helpers/TodosHelper';
+import * as TodoActionCreators from '../redux/actions/TodoActionCreators';
+
+import * as Animatable from 'react-native-animatable';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+import config from '../config';
 
 import Title from '../components/Title';
-import List from '../components//List';
 
 class CompletedTodosScreen extends Component {
+
+  renderCompletedTodosList = (value) => {
+    const {dispatch, todosReducer} = this.props;
+    const {completed} = todosReducer;
+    const {todos, editModeIndex} = completed;
+
+    const todo = value.item;
+    const {text} = todo;
+
+    const {deleteCompletedTodo, onTodoEdited} = this.props;
+
+    return (
+      <View
+        key={todo.id}
+        style={styles.item} >
+
+          <TextInput
+            style={styles.text}
+            defaultValue={text}
+            editable={false} />
+
+          <View style={styles.actions}>
+
+            <Icon
+              name="times"
+              size={15}
+              style={styles.icon}
+              onPress={() => deleteCompletedTodo(value.index)} />
+
+          </View>
+
+      </View>
+    );
+  }
 
   render() {
     const {todosReducer} = this.props;
     const {completed} = todosReducer;
-
     const {todos} = completed;
-
-    const type = todosConfig.todos.types.completed;
 
     return (
       <View style={styles.container}>
+
         {Title('Compeleted Todos!')}
-        <List
-          todos={todos}
-          type={type}
-          onDeleteTodo={todosHelper.onDeleteCompletedTodo.bind(this)}
-        />
+
+        <FlatList
+          data={todos}
+          renderItem={this.renderCompletedTodosList}
+          keyExtractor={todo => todo.id} />
+
       </View>
     );
   }
@@ -40,11 +77,33 @@ const styles = StyleSheet.create({
     marginTop: (Platform.OS === 'ios') ? 20 : 0,
     flex: 1
   },
-});
+  item: {
+    backgroundColor: 'whitesmoke',
+    padding: 15,
+    marginBottom: 5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  text: {
+    flex: 1,
+  },
+  actions: {
+    flexDirection: 'row',
+  },
+  icon: {
+    paddingLeft: 5,
+    paddingRight: 5,
+  }
+  });
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(TodoActionCreators, dispatch);
+}
 
 const mapStateToProps = (state) => ({
   todosReducer: state.todosReducer,
   nav: state.nav,
 })
 
-export default connect(mapStateToProps)(CompletedTodosScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(CompletedTodosScreen)
