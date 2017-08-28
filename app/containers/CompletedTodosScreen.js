@@ -87,13 +87,14 @@ const styles = StyleSheet.create({
   },
   text: {
     flex: 1,
+    paddingTop: 5,
+    paddingBottom: 5,
   },
   actions: {
     flexDirection: 'row',
   },
   icon: {
-    paddingLeft: 5,
-    paddingRight: 5,
+    padding: 5,
   }
   });
 
