@@ -46,7 +46,6 @@ export function onTodoEdited(newText, index) {
 }
 
 export function completeTodo(index) {
-  console.log('completeTodo', index);
   return {
     type: actions.complete_todo,
     payload: {index}

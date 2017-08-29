@@ -58,8 +58,6 @@ const todosReducer = (state = initialState, action) => {
             }
           break;
       case actions.turn_on_edit_mode:
-      console.log('turn_on_edit_mode', state);
-      console.log('turn_on_edit_mode', payload);
           return {
             ...state,
             active: {
