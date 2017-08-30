@@ -1,6 +1,6 @@
 ## Todo's app Preview
 
-![alt text](http://res.cloudinary.com/randomstuffibuy/image/upload/v1503487525/github/todo-mobile/todo-app-proto-two.gif)
+![alt text](http://res.cloudinary.com/randomstuffibuy/image/upload/v1504115057/github/todo-app-v0.3.gif)
 
 ## Running
 
