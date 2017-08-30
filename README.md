@@ -1,4 +1,4 @@
-## Todo's app Preview
+## Todo's app Preview [(Watch it on YouTube)](https://www.youtube.com/watch?v=c7jxx_t5Eos)
 
 ![alt text](http://res.cloudinary.com/randomstuffibuy/image/upload/v1504115057/github/todo-app-v0.3.gif)
 
