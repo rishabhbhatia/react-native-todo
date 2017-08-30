@@ -98,7 +98,8 @@ class ListRowActive extends Component {
 const styles = StyleSheet.create({
   row: {
     backgroundColor: 'whitesmoke',
-    padding: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
     marginBottom: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
