@@ -82,7 +82,7 @@ class ListRowCompleted extends Component {
 
 const styles = StyleSheet.create({
   row: {
-    backgroundColor: 'whitesmoke',
+    backgroundColor: 'white',
     paddingLeft: 15,
     paddingRight: 15,
     marginBottom: 5,

@@ -14,6 +14,13 @@ class ListRowActive extends Component {
     this._animated = new Animated.Value(0);
   }
 
+  componentWillMount() {
+    const {todo} = this.props;
+    const {text} = todo;
+
+    this.setState({ text: text});
+  }
+
   componentDidMount() {
     Animated.timing(this._animated, {
       toValue: 1,
@@ -35,7 +42,7 @@ class ListRowActive extends Component {
     const {todo, editModeIndex, index} = this.props;
     const {text, isChecked} = todo;
 
-    const {completeTodo, onTodoEdited, turnOnEditMode, deleteActiveTodo} = this.props;
+    const {completeTodo, onTodoEdited, turnOnEditMode, turnOffEditMode, deleteActiveTodo} = this.props;
 
     const rowStyles = [
       styles.row,
@@ -72,17 +79,27 @@ class ListRowActive extends Component {
             }}
           />
           <TextInput
-             style={styles.text}
-             defaultValue={text}
+             style={editModeIndex.index == index ? [styles.text, styles.inputActive] : styles.text}
+             ref={todo.id}
+             onChangeText={(value) => this.setState({ text: value })}
+             value={this.state.text}
+             maxLength={100}
              editable={editModeIndex.index == index}
-             onSubmitEditing={(event) => onTodoEdited(event.nativeEvent.text, index)}
+             onSubmitEditing={(event) => onTodoEdited(this.state.text, index)}
+             onBlur={() => {
+               turnOffEditMode();
+               this.setState({ text })
+             }}
            />
           <View style={styles.actions} >
             <Icon
               style={styles.icon}
               name="pencil"
               size={16}
-              onPress={() => turnOnEditMode(index)}
+              onPress={() => {
+                turnOnEditMode(index);
+                this.refs[todo.id].focus();
+              }}
             />
             <Icon
                style={styles.icon}
@@ -97,7 +114,7 @@ class ListRowActive extends Component {
 
 const styles = StyleSheet.create({
   row: {
-    backgroundColor: 'whitesmoke',
+    backgroundColor: 'white',
     paddingLeft: 15,
     paddingRight: 15,
     marginBottom: 5,
@@ -111,8 +128,13 @@ const styles = StyleSheet.create({
   },
   text: {
     flex: 1,
-    paddingTop: 5,
-    paddingBottom: 5,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingRight: 5,
+    paddingLeft: 5,
+  },
+  inputActive: {
+    backgroundColor: 'whitesmoke'
   },
   actions: {
     flexDirection: 'row',

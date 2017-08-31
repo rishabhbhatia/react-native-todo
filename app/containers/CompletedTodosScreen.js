@@ -45,7 +45,8 @@ class CompletedTodosScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     marginTop: (Platform.OS === 'ios') ? 20 : 0,
-    flex: 1
+    flex: 1,
+    backgroundColor: 'whitesmoke',
   },
   item: {
     backgroundColor: 'whitesmoke',
