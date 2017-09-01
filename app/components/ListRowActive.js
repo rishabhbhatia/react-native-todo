@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TextInput, Image, StyleSheet, Animated } from 'react-native';
+import { View, Text, Image, StyleSheet, Animated } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { CheckBox } from 'react-native-elements';
@@ -39,77 +39,15 @@ class ListRowActive extends Component {
   };
 
   render() {
-    const {todo, editModeIndex, index} = this.props;
+    const {todo, index} = this.props;
     const {text, completed} = todo;
 
-    console.log(editModeIndex);
-
-    const {completeTodo, onTodoEdited, turnOnEditMode, turnOffEditMode, deleteActiveTodo} = this.props;
-
-    const rowStyles = [
-      styles.row,
-      {
-        height: this._animated.interpolate({
-          inputRange: [0, 1],
-          outputRange: [0, ROW_HEIGHT],
-          extrapolate: 'clamp',
-        }),
-      },
-      { opacity: this._animated },
-      {
-        transform: [
-          { scale: this._animated },
-          {
-            rotate: this._animated.interpolate({
-              inputRange: [0, 1],
-              outputRange: ['35deg', '0deg'],
-              extrapolate: 'clamp',
-            })
-          }
-        ],
-      },
-    ];
+    const {completeTodo, deleteActiveTodo} = this.props;
 
     return (
-      <Animated.View style={rowStyles} key={todo.id} >
-          <CheckBox
-            style={styles.checkbox}
-            checked={completed}
-            onPress={() => {
-              completeTodo(index);
-              this.onRemove(index);
-            }}
-          />
-          <TextInput
-             style={editModeIndex == index ? [styles.text, styles.inputActive] : styles.text}
-             ref={todo.id}
-             onChangeText={(text) => this.setState({ text })}
-             value={this.state.text}
-             maxLength={50}
-             editable={editModeIndex == index}
-             onSubmitEditing={(event) => onTodoEdited(this.state.text, index)}
-             onBlur={() => {
-               turnOffEditMode();
-               this.setState({ text })
-             }}
-           />
-          <View style={styles.actions} >
-            <Icon
-              style={styles.icon}
-              name="pencil"
-              size={16}
-              onPress={() => {
-                turnOnEditMode(index);
-                this.refs[todo.id].focus();
-              }}
-            />
-            <Icon
-               style={styles.icon}
-               name="minus-circle" size={16}
-               onPress={() => this.onRemove(index)}
-             />
-          </View>
-      </Animated.View>
+      <View style={styles.row} key={todo.id} >
+          <Text style={styles.text}>{todo.text}</Text>
+      </View>
     );
   }
 }
@@ -119,30 +57,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     paddingLeft: 15,
     paddingRight: 15,
-    marginBottom: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     height: ROW_HEIGHT,
   },
-  checkbox: {
-    marginLeft: 5,
-  },
   text: {
     flex: 1,
-    paddingTop: 10,
-    paddingBottom: 10,
     paddingRight: 5,
     paddingLeft: 5,
-  },
-  inputActive: {
-    backgroundColor: 'whitesmoke'
-  },
-  actions: {
-    flexDirection: 'row',
-  },
-  icon: {
-    padding: 5,
   }
 });
 

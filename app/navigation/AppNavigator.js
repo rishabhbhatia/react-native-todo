@@ -9,7 +9,7 @@ import CompletedTodosScreen from '../containers/CompletedTodosScreen';
 const tabBarConfig = {
   tabBarComponent: TabBarBottom,
   tabBarPosition: 'bottom',
-  swipeEnabled: true,
+  swipeEnabled: false,
   animationEnabled: true,
   lazy: true,
   tabBarOptions: {

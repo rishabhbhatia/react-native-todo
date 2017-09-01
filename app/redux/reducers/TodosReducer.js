@@ -1,16 +1,16 @@
 import Todo from '../../models/Todo'
 import config from '../../config'
 
-let todoFour = new Todo({ 'id': 4, 'text':'Todo four'});
+let todoFour = new Todo({ 'id': 4, 'text':'Watch Boardwalk Empire'});
 todoFour.setType('completed');
 
-let todoFive = new Todo({ 'id': 5, 'text':'Todo five'});
+let todoFive = new Todo({ 'id': 5, 'text':'Get Netflix'});
 todoFive.setType('completed');
 
 const initialState = {
   active: {
-    todos: [new Todo({ 'id': 1, 'text':'Todo one'}), new Todo({ 'id': 2, 'text':'Todo two'}),
-     new Todo({ 'id': 3, 'text':'Todo three'})],
+    todos: [new Todo({ 'id': 1, 'text':'Go for a walk'}), new Todo({ 'id': 2, 'text':'Meeting at 11 AM'}),
+     new Todo({ 'id': 3, 'text':'Coffee in morning'})],
     editModeIndex: -1,
   },
   completed: {
