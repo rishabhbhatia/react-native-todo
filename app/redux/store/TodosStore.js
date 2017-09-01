@@ -1,10 +1,16 @@
 import { AsyncStorage } from 'react-native';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+
 import { persistStore, autoRehydrate, purgeStoredState } from 'redux-persist';
 
-import AppReducer from '../reducers/AppReducer';
+import appReducer from '../reducers/AppReducer';
 
-const todosStore = createStore(AppReducer, undefined, autoRehydrate());
+
+const todosStore = createStore(
+  appReducer,
+  undefined,
+  autoRehydrate()
+  );
 
 persistStore(todosStore, {storage: AsyncStorage});
 // purgeStoredState({storage: AsyncStorage})  // Clear persistStore

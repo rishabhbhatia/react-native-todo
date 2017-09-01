@@ -40,7 +40,9 @@ class ListRowActive extends Component {
 
   render() {
     const {todo, editModeIndex, index} = this.props;
-    const {text, isChecked} = todo;
+    const {text, completed} = todo;
+
+    console.log(editModeIndex);
 
     const {completeTodo, onTodoEdited, turnOnEditMode, turnOffEditMode, deleteActiveTodo} = this.props;
 
@@ -72,19 +74,19 @@ class ListRowActive extends Component {
       <Animated.View style={rowStyles} key={todo.id} >
           <CheckBox
             style={styles.checkbox}
-            checked={isChecked}
+            checked={completed}
             onPress={() => {
               completeTodo(index);
               this.onRemove(index);
             }}
           />
           <TextInput
-             style={editModeIndex.index == index ? [styles.text, styles.inputActive] : styles.text}
+             style={editModeIndex == index ? [styles.text, styles.inputActive] : styles.text}
              ref={todo.id}
-             onChangeText={(value) => this.setState({ text: value })}
+             onChangeText={(text) => this.setState({ text })}
              value={this.state.text}
-             maxLength={100}
-             editable={editModeIndex.index == index}
+             maxLength={50}
+             editable={editModeIndex == index}
              onSubmitEditing={(event) => onTodoEdited(this.state.text, index)}
              onBlur={() => {
                turnOffEditMode();

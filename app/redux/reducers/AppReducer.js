@@ -4,9 +4,9 @@ import todosReducer from './TodosReducer';
 import navReducer from './NavReducer';
 
 
-const AppReducer = combineReducers({
+const appReducer = combineReducers({
   todosReducer,
   nav: navReducer,
 });
 
-export default AppReducer;
+export default appReducer;

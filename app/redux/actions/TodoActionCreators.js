@@ -27,14 +27,14 @@ export function deleteCompletedTodo(index) {
 export function turnOnEditMode(index) {
   return {
     type: actions.turn_on_edit_mode,
-    payload: {index}
+    payload: index
   };
 }
 
 export function turnOffEditMode() {
   return {
     type: actions.turn_off_edit_mode,
-    payload: {index: -1}
+    payload: -1
   };
 }
 

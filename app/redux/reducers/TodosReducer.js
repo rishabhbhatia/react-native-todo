@@ -11,7 +11,7 @@ const initialState = {
   active: {
     todos: [new Todo({ 'id': 1, 'text':'Todo one'}), new Todo({ 'id': 2, 'text':'Todo two'}),
      new Todo({ 'id': 3, 'text':'Todo three'})],
-    editModeIndex: { index: -1},
+    editModeIndex: -1,
   },
   completed: {
     todos: [todoFour, todoFive],
@@ -105,7 +105,7 @@ const todosReducer = (state = initialState, action) => {
                   completedTodo = todo;
                   return {
                     ...todo,
-                    isChecked: !todo.isChecked
+                    completed: !todo.completed
                   }
                 }
                 return todo

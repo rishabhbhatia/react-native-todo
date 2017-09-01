@@ -1,18 +1,17 @@
+import uuid from 'uuid';
 
 class Todo {
 
   constructor(todo) {
-    this.id = (typeof todo.id !== 'undefined') ?  todo.id : new Date().getTime();
+    this.id = uuid.v1();
     this.text = todo.text;
-    this.type = 'active'; // types: active, completed; default state: active
-    this.isChecked = false; // treating checked as complete for phase one
+    this.type = 'active';
+    this.completed = false;
   }
 
   getId = () => {
      return this.id;
   }
-
-  setId = (id) => this.id = id;
 
   getText = () => {
      return this.text;
@@ -26,11 +25,11 @@ class Todo {
 
   setType = (type) => this.type = type;
 
-  getChecked = () => {
-    return this.isChecked;
+  isCompleted = () => {
+    return this.completed;
   }
 
-  setChecked = (checked) => this.isChecked = checked;
+  setCompleted = (completed) => this.completed = completed;
 }
 
 export default Todo;
