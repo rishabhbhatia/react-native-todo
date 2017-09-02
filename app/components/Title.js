@@ -14,7 +14,14 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: '#313842',
     padding: 15,
-    elevation: 7,
+    borderRadius: 2,
+    borderColor: '#1B2127',
+    borderBottomWidth: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 3,
   },
   title: {
     textAlign: 'center',

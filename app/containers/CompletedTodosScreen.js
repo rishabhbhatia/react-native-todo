@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
-import { StyleSheet, FlatList, ListItem, TextInput, View, Platform } from 'react-native';
+import { StyleSheet, Text, FlatList, ListView, View, Platform, Dimensions, Animated} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import * as TodoActionCreators from '../redux/actions/TodoActionCreators';
+import SwipeListView from '../lib';
 
-import config from '../config';
+import * as TodoActionCreators from '../redux/actions/TodoActionCreators';
 
 import Title from '../components/Title';
 import ListRowCompleted from '../components/ListRowCompleted';
@@ -19,22 +20,39 @@ class CompletedTodosScreen extends Component {
     const {completed} = todosReducer;
     const {todos} = completed;
 
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     let actions = bindActionCreators(TodoActionCreators, dispatch)
 
     return (
       <View style={styles.container}>
         {Title('Compeleted Todos!')}
-        <FlatList
-          data={todos}
+        <SwipeListView
+          dataSource={ds.cloneWithRows(todos)}
           keyExtractor={todo => todo.id}
           extraData={this.props}
-          renderItem={({ item, index }) => (
-          <ListRowCompleted
-            todo={{...item}}
-            index={index}
-            {...actions}
-          />
-        )}
+          enableEmptySections={true}
+          renderRow={( item, secId, rowId ) => (
+            <ListRowCompleted
+              todo={{...item}}
+              index={rowId}
+              {...actions}
+            />
+          )}
+          renderRightRow={ data => (
+    				<View style={styles.rowRight}>
+               <Icon
+                  style={styles.icon}
+                  name="times" size={20}
+                />
+    				</View>
+    			)}
+          renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
+          swipeDuration={300}
+          disableRightSwipe={true}
+          closeOnRowBeginSwipe={true}
+          swipeToOpenPercent={35}
+          rightOpenValue={-Dimensions.get('window').width}
+          onSwipeLeftComplete={actions.deleteCompletedTodo}
          />
       </View>
     );
@@ -46,26 +64,24 @@ const styles = StyleSheet.create({
   container: {
     marginTop: (Platform.OS === 'ios') ? 20 : 0,
     flex: 1,
-    backgroundColor: 'whitesmoke',
+    backgroundColor: '#1B2127',
   },
-  item: {
-    backgroundColor: 'whitesmoke',
-    padding: 15,
-    marginBottom: 5,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  text: {
+  rowRight: {
     flex: 1,
-    paddingTop: 5,
-    paddingBottom: 5,
-  },
-  actions: {
     flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingLeft: 20,
+    paddingRight: 20,
+    backgroundColor: '#FE4D33'
   },
   icon: {
-    padding: 5,
+    color: 'white',
+  },
+  separator: {
+    flex: 1,
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: '#182129',
   }
   });
 

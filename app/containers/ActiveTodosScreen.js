@@ -21,9 +21,8 @@ class ActiveTodosScreen extends Component {
     const {active} = todosReducer;
     const {todos, editModeIndex} = active;
 
-    let actions = bindActionCreators(TodoActionCreators, dispatch)
-
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    let actions = bindActionCreators(TodoActionCreators, dispatch);
 
     return (
       <View style={styles.container} >

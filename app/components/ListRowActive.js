@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, Animated } from 'react-native';
+import { View, Text, StyleSheet, Animated } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { CheckBox } from 'react-native-elements';
 
 const ANIMATION_DURATION = 250;
 const ROW_HEIGHT = 70;

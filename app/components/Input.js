@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TextInput, StyleSheet } from 'react-native'
+import { Animated, View, TextInput, StyleSheet } from 'react-native'
 
 export default class Input extends Component {
 
@@ -19,6 +19,14 @@ export default class Input extends Component {
     this.setState({text: ''})
   }
 
+  onFocus = () => {
+    console.log('Focussed');
+  }
+
+  onBlur = () => {
+    console.log('Blurred');
+  }
+
   render() {
     const {placeholder} = this.props
     const {text} = this.state
@@ -29,6 +37,11 @@ export default class Input extends Component {
         value={text}
         placeholder={placeholder}
         placeholderTextColor="white"
+        selectionColor='#313842'
+        maxLength={100}
+        clearTextOnFocus={true}
+        onFocus={this.onFocus}
+        onBlur={this.onBlur}
         onChangeText={this.onChangeText}
         onSubmitEditing={this.onSubmitEditing}
       />
@@ -38,9 +51,9 @@ export default class Input extends Component {
 
 const styles = StyleSheet.create({
   input: {
-    padding: 10,
-    height: 50,
+    padding: 15,
     backgroundColor: '#526373',
     color: 'white',
+    fontSize: 15,
   },
 })

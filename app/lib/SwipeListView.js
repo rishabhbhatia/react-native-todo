@@ -1,14 +1,7 @@
 'use strict';
 
-import React, {
-	Component,
-	PropTypes,
-} from 'react';
-import {
-	ListView,
-	Text,
-	View,
-} from 'react-native';
+import React, {Component, PropTypes} from 'react';
+import {ListView, Text, View} from 'react-native';
 
 import SwipeRow from './SwipeRow';
 
@@ -75,7 +68,8 @@ class SwipeListView extends Component {
 
 	renderRow(rowData, secId, rowId, rowMap) {
 		const Component = this.props.renderRow(rowData, secId, rowId, rowMap);
-		if (!this.props.renderLeftRow || !this.props.renderRightRow) {
+		console.log('SwipeListView', (!this.props.renderLeftRow || !this.props.renderRightRow));
+		if (!this.props.renderLeftRow && !this.props.renderRightRow) {
 			return React.cloneElement(
 				Component,
 				{
@@ -123,9 +117,9 @@ class SwipeListView extends Component {
 					swipeToOpenPercent={this.props.swipeToOpenPercent}
           rowId={parseInt(rowId)}
 				>
-					{this.props.renderLeftRow(rowData, secId, rowId, this._rows)}
-					{this.props.renderRightRow(rowData, secId, rowId, this._rows)}
-					{this.props.renderRow(rowData, secId, rowId, this._rows)}
+					{this.props.renderLeftRow ? this.props.renderLeftRow(rowData, secId, rowId, this._rows) : null}
+					{this.props.renderRightRow ? this.props.renderRightRow(rowData, secId, rowId, this._rows) : null}
+					{this.props.renderRow ? this.props.renderRow(rowData, secId, rowId, this._rows) : null}
 				</SwipeRow>
 			);
 		}

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { View, TextInput, Image, StyleSheet, Animated, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Animated } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { CheckBox } from 'react-native-elements';
 
 const ANIMATION_DURATION = 250;
 const ROW_HEIGHT = 70;
@@ -37,73 +36,56 @@ class ListRowCompleted extends Component {
 
     const {deleteCompletedTodo} = this.props;
 
-    const rowStyles = [
-      styles.row,
-      {
-        height: this._animated.interpolate({
-          inputRange: [0, 1],
-          outputRange: [0, ROW_HEIGHT],
-          extrapolate: 'clamp',
-        }),
-      },
-      { opacity: this._animated },
-      {
-        transform: [
-          { scale: this._animated },
-          {
-            rotate: this._animated.interpolate({
-              inputRange: [0, 1],
-              outputRange: ['35deg', '0deg'],
-              extrapolate: 'clamp',
-            })
-          }
-        ],
-      },
-    ];
-
     return (
-      <Animated.View style={rowStyles} key={todo.id} >
-          <TextInput
-             style={styles.text}
-             defaultValue={text}
-             editable={false}
+      <View style={styles.row} key={todo.id} >
+        <View style={styles.timeline}>
+          <View style={styles.timelineVerticalLink} />
+          <Icon
+             style={styles.icon}
+             name="circle" size={8}
            />
-          <View style={styles.actions} >
-            <Icon
-               style={styles.icon}
-               name="trash" size={15}
-               onPress={() => this.onRemove(index)}
-             />
-          </View>
-      </Animated.View>
+        </View>
+        <Text style={styles.text}>{todo.text}</Text>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   row: {
-    backgroundColor: 'white',
+    backgroundColor: '#313842',
     paddingLeft: 15,
     paddingRight: 15,
-    marginBottom: 5,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     height: ROW_HEIGHT,
   },
-  checkbox: {
-    marginLeft: 5,
+  timeline: {
+    height: ROW_HEIGHT,
+    width: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  timelineVerticalLink: {
+    height: ROW_HEIGHT,
+    width: 1,
+    backgroundColor: '#526373',
+    justifyContent: 'center'
+  },
+  icon: {
+    color: '#e7d629',
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    alignItems: 'center'
   },
   text: {
     flex: 1,
-    paddingTop: 5,
-    paddingBottom: 5,
-  },
-  actions: {
-    flexDirection: 'row',
-  },
-  icon: {
-    padding: 5,
+    fontSize: 16,
+    fontWeight: '600',
+    paddingRight: 10,
+    paddingLeft: 10,
+    color: 'white',
   }
 });
 
