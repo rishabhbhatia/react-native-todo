@@ -17,6 +17,7 @@ const tabBarConfig = {
     showLabel: true,
     showIcon: true,
     style: {
+      padding: 5,
       backgroundColor: '#313842'
     },
     labelStyle: {
