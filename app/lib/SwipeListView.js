@@ -68,7 +68,7 @@ class SwipeListView extends Component {
 
 	renderRow(rowData, secId, rowId, rowMap) {
 		const Component = this.props.renderRow(rowData, secId, rowId, rowMap);
-		console.log('SwipeListView', (!this.props.renderLeftRow || !this.props.renderRightRow));
+
 		if (!this.props.renderLeftRow && !this.props.renderRightRow) {
 			return React.cloneElement(
 				Component,

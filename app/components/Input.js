@@ -37,7 +37,7 @@ export default class Input extends Component {
         value={text}
         placeholder={placeholder}
         placeholderTextColor="white"
-        selectionColor='#313842'
+        selectionColor='#e7d629'
         maxLength={100}
         clearTextOnFocus={true}
         onFocus={this.onFocus}

@@ -60,9 +60,9 @@ class ActiveTodosScreen extends Component {
     				</View>
     			)}
           renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
-          swipeDuration={300}
+          swipeDuration={500}
           closeOnRowBeginSwipe={true}
-          swipeToOpenPercent={35}
+          swipeToOpenPercent={40}
           leftOpenValue={Dimensions.get('window').width}
           rightOpenValue={-Dimensions.get('window').width}
           onSwipeLeftComplete={actions.deleteActiveTodo}
