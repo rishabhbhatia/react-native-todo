@@ -104,8 +104,6 @@ class SwipeListView extends Component {
 					setScrollEnabled={ (enable) => this.setScrollEnabled(enable) }
 					leftOpenValue={this.props.leftOpenValue}
 					rightOpenValue={this.props.rightOpenValue}
-					leftBackgroundColor={this.props.leftBackgroundColor}
-					rightBackgroundColor={this.props.rightBackgroundColor}
 					onSwipeLeftComplete={this.props.onSwipeLeftComplete}
 					onSwipeRightComplete={this.props.onSwipeRightComplete}
 					closeOnRowPress={this.props.closeOnRowPress}

@@ -13,11 +13,14 @@ const tabBarConfig = {
   animationEnabled: true,
   lazy: true,
   tabBarOptions: {
-    activeTintColor: 'skyblue',
+    activeTintColor: '#e7d629',
     showLabel: true,
     showIcon: true,
+    style: {
+      backgroundColor: '#313842'
+    },
     labelStyle: {
-      fontSize: 13
+      fontSize: 12
     },
   }
 };
@@ -28,7 +31,7 @@ const AppNavigator = TabNavigator({
     navigationOptions: {
         tabBarLabel: 'Active',
         tabBarIcon: ({tintColor, focused}) => (
-           <Icon name="pencil-square-o" size={20} style={{ color: tintColor }} />
+           <Icon name="pencil-square-o" size={18} style={{ color: tintColor }} />
         )
       }
   },
@@ -37,7 +40,7 @@ const AppNavigator = TabNavigator({
     navigationOptions: {
         tabBarLabel: 'Completed',
         tabBarIcon: ({tintColor, focused}) => (
-           <Icon name="check-square-o" size={20} style={{ color: tintColor }} />
+           <Icon name="check-square-o" size={18} style={{ color: tintColor }} />
         )
       }
   },

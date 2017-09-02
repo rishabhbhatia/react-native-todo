@@ -28,6 +28,7 @@ export default class Input extends Component {
         style={styles.input}
         value={text}
         placeholder={placeholder}
+        placeholderTextColor="white"
         onChangeText={this.onChangeText}
         onSubmitEditing={this.onSubmitEditing}
       />
@@ -37,7 +38,9 @@ export default class Input extends Component {
 
 const styles = StyleSheet.create({
   input: {
-    padding: 15,
+    padding: 10,
     height: 50,
+    backgroundColor: '#526373',
+    color: 'white',
   },
 })

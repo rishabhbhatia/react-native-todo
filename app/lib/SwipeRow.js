@@ -324,7 +324,6 @@ class SwipeRow extends Component {
 					{
 						height: this.state.hiddenHeight,
 						width: this.state.hiddenWidth,
-						backgroundColor: this.state.swipingLeft ? this.props.leftBackgroundColor : this.props.rightBackgroundColor
 					}
 				]}>
 					{this.state.swipingLeft ? this.props.children[1] : this.props.children[0]}
@@ -378,14 +377,6 @@ SwipeRow.propTypes = {
 	 * TranslateX value for opening the row to the right (negative number)
 	 */
 	rightOpenValue: PropTypes.number,
-	/*
-	*	Background color while swiping to left side
-	*/
-	leftBackgroundColor: PropTypes.string,
-	/*
-	*	Background color while swiping to right side
-	*/
-	rightBackgroundColor: PropTypes.string,
 	/**
 	 * TranslateX value for stop the row to the left (positive number)
 	 */
@@ -473,8 +464,6 @@ SwipeRow.propTypes = {
 SwipeRow.defaultProps = {
 	leftOpenValue: 0,
 	rightOpenValue: 0,
-	leftBackgroundColor: "red",
-	rightBackgroundColor: "green",
 	closeOnRowPress: true,
 	disableLeftSwipe: false,
 	disableRightSwipe: false,

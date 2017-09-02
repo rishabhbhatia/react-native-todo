@@ -49,7 +49,6 @@ class ActiveTodosScreen extends Component {
               <Icon
                  style={styles.icon}
                  name="check" size={20}
-                 onPress={() => this.onRemove(index)}
                />
     				</View>
     			)}
@@ -58,7 +57,6 @@ class ActiveTodosScreen extends Component {
                <Icon
                   style={styles.icon}
                   name="times" size={20}
-                  onPress={() => this.onRemove(index)}
                 />
     				</View>
     			)}
@@ -68,8 +66,6 @@ class ActiveTodosScreen extends Component {
           swipeToOpenPercent={35}
           leftOpenValue={Dimensions.get('window').width}
           rightOpenValue={-Dimensions.get('window').width}
-          leftBackgroundColor="red"
-          rightBackgroundColor="green"
           onSwipeLeftComplete={actions.deleteActiveTodo}
           onSwipeRightComplete={(rowId) => {
             actions.completeTodo(rowId);
@@ -86,7 +82,7 @@ const styles = StyleSheet.create({
   container: {
     marginTop: (Platform.OS === 'ios') ? 20 : 0,
     flex: 1,
-    backgroundColor: 'whitesmoke',
+    backgroundColor: '#1B2127',
   },
   rowLeft: {
     flex: 1,
@@ -94,7 +90,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     paddingLeft: 20,
-    paddingRight: 20
+    paddingRight: 20,
+    backgroundColor: 'green'
   },
   rowRight: {
     flex: 1,
@@ -102,7 +99,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     paddingLeft: 20,
-    paddingRight: 20
+    paddingRight: 20,
+    backgroundColor: '#FE4D33'
   },
   icon: {
     color: 'white',
@@ -110,7 +108,7 @@ const styles = StyleSheet.create({
   separator: {
     flex: 1,
     height: StyleSheet.hairlineWidth,
-    backgroundColor: '#8E8E8E',
+    backgroundColor: '#182129',
   }
 });
 

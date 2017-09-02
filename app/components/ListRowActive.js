@@ -46,7 +46,14 @@ class ListRowActive extends Component {
 
     return (
       <View style={styles.row} key={todo.id} >
-          <Text style={styles.text}>{todo.text}</Text>
+        <View style={styles.timeline}>
+          <View style={styles.timelineVerticalLink} />
+          <Icon
+             style={styles.icon}
+             name="circle" size={8}
+           />
+        </View>
+        <Text style={styles.text}>{todo.text}</Text>
       </View>
     );
   }
@@ -54,18 +61,39 @@ class ListRowActive extends Component {
 
 const styles = StyleSheet.create({
   row: {
-    backgroundColor: 'white',
+    backgroundColor: '#313842',
     paddingLeft: 15,
     paddingRight: 15,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     height: ROW_HEIGHT,
   },
+  timeline: {
+    height: ROW_HEIGHT,
+    width: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  timelineVerticalLink: {
+    height: ROW_HEIGHT,
+    width: 1,
+    backgroundColor: '#526373',
+    justifyContent: 'center'
+  },
+  icon: {
+    color: '#e7d629',
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    alignItems: 'center'
+  },
   text: {
     flex: 1,
-    paddingRight: 5,
-    paddingLeft: 5,
+    fontSize: 16,
+    fontWeight: '600',
+    paddingRight: 10,
+    paddingLeft: 10,
+    color: 'white',
   }
 });
 
