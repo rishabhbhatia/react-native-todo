@@ -33,9 +33,11 @@
     "hidden_row_icon_size": 20,
     "row_swipe_duration": 200,
     "row_swipe_open_percent": 40,
+    "row_timeline_icon_size": 6,
   },
   "icons": {
     "check": "check",
     "times": "times",
+    "circle": "circle",
   }
 }

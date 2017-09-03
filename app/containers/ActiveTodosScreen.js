@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import moment from 'moment';
 
 import config from '../config';
 import SwipeListView from '../lib';
@@ -12,7 +13,7 @@ import * as TodoActionCreators from '../redux/actions/TodoActionCreators';
 
 import Title from '../components/Title';
 import Input from '../components/Input';
-import ListRowActive from '../components/ListRowActive';
+import TodoRowItem from '../components/TodoRowItem';
 import DateView from '../components/DateView';
 
 import styles from './styles/ActiveTodosStyles';
@@ -22,12 +23,12 @@ import commonStyles from './styles';
 class ActiveTodosScreen extends Component {
 
   render() {
-    const {dispatch, todosReducer} = this.props;
+    const {todosReducer} = this.props;
     const {active} = todosReducer;
     const {todos, editModeIndex} = active;
+    const {addTodo, completeTodo, deleteActiveTodo} = this.props;
 
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    let actions = bindActionCreators(TodoActionCreators, dispatch);
 
     this.leftOpenValue = Dimensions.get('window').width;
     this.rightOpenValue = -Dimensions.get('window').width;
@@ -44,7 +45,7 @@ class ActiveTodosScreen extends Component {
               underlineColorAndroid={config.colors.transparent}
               maxLength={config.constants.active_todos_screen.add_todo_input_maxlength}
               clearTextOnFocus={config.constants.active_todos_screen.add_todo_input_clear_text_on_focus}
-              onSubmitEditing={actions.addTodo}
+              onSubmitEditing={addTodo}
             />
           </View>
           <DateView />
@@ -54,10 +55,10 @@ class ActiveTodosScreen extends Component {
           keyExtractor={todo => todo.id}
           enableEmptySections={true}
           renderRow={(item, secId, rowId) => (
-            <ListRowActive
+            <TodoRowItem
               todo={{...item}}
               index={rowId}
-              {...actions}
+              time={moment().startOf('hour').fromNow()}
             />
           )}
           renderLeftRow={data => (
@@ -87,10 +88,10 @@ class ActiveTodosScreen extends Component {
           swipeToOpenPercent={config.constants.row_swipe_open_percent}
           leftOpenValue={this.leftOpenValue}
           rightOpenValue={this.rightOpenValue}
-          onSwipeLeftComplete={actions.deleteActiveTodo}
+          onSwipeLeftComplete={deleteActiveTodo}
           onSwipeRightComplete={(rowId) => {
-            actions.completeTodo(rowId);
-            actions.deleteActiveTodo(rowId);
+            completeTodo(rowId);
+            deleteActiveTodo(rowId);
           }}
          />
       </View>
@@ -99,9 +100,13 @@ class ActiveTodosScreen extends Component {
 
 };
 
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(TodoActionCreators, dispatch);
+};
+
 const mapStateToProps = (state) => ({
   todosReducer: state.todosReducer,
   nav: state.nav,
 });
 
-export default connect(mapStateToProps)(ActiveTodosScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(ActiveTodosScreen);

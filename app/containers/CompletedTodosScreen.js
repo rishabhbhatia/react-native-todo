@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import moment from 'moment';
 
 import config from '../config';
 import SwipeListView from '../lib';
@@ -11,7 +12,7 @@ import SwipeListView from '../lib';
 import * as TodoActionCreators from '../redux/actions/TodoActionCreators';
 
 import Title from '../components/Title';
-import ListRowCompleted from '../components/ListRowCompleted';
+import TodoRowItem from '../components/TodoRowItem';
 
 import commonStyles from './styles';
 
@@ -23,8 +24,9 @@ class CompletedTodosScreen extends Component {
     const {completed} = todosReducer;
     const {todos} = completed;
 
+    const {deleteCompletedTodo} = this.props;
+
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    let actions = bindActionCreators(TodoActionCreators, dispatch);
 
     this.rightOpenValue = -Dimensions.get('window').width;
 
@@ -37,10 +39,10 @@ class CompletedTodosScreen extends Component {
           extraData={this.props}
           enableEmptySections={true}
           renderRow={ (item, secId, rowId) => (
-            <ListRowCompleted
+            <TodoRowItem
               todo={{...item}}
               index={rowId}
-              {...actions}
+              time={moment().endOf('hour').fromNow()}
             />
           )}
           renderRightRow={data => (
@@ -61,7 +63,7 @@ class CompletedTodosScreen extends Component {
           swipeToOpenPercent={config.constants.row_swipe_open_percent}
           disableRightSwipe={config.constants.completed_todos_screen.disable_right_swipe}
           rightOpenValue={this.rightOpenValue}
-          onSwipeLeftComplete={actions.deleteCompletedTodo}
+          onSwipeLeftComplete={deleteCompletedTodo}
          />
       </View>
     );
@@ -69,9 +71,13 @@ class CompletedTodosScreen extends Component {
 
 };
 
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(TodoActionCreators, dispatch);
+};
+
 const mapStateToProps = (state) => ({
   todosReducer: state.todosReducer,
   nav: state.nav,
 });
 
-export default connect(mapStateToProps)(CompletedTodosScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(CompletedTodosScreen);
