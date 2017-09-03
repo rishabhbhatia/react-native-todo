@@ -1,6 +1,6 @@
 ## Todo's app Preview [(Watch it on YouTube)](https://youtu.be/Dql1nQ73CY4)
 
-![alt text](http://res.cloudinary.com/randomstuffibuy/image/upload/v1504442580/github/todo-mobile/todo-app-v1.0.gif)
+![alt text](http://res.cloudinary.com/randomstuffibuy/image/upload/c_scale,w_200/v1504442580/github/todo-mobile/todo-app-v1.0.gif)
 
 ## Running
 
