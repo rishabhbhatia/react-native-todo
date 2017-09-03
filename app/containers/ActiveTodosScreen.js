@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, FlatList, ListView, View, Platform, Dimensions, Animated} from 'react-native';
+import { Text, ListView, View, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import config from '../config';
 import SwipeListView from '../lib';
 
 import * as TodoActionCreators from '../redux/actions/TodoActionCreators';
@@ -14,6 +15,8 @@ import Input from '../components/Input';
 import ListRowActive from '../components/ListRowActive';
 import DateView from '../components/DateView';
 
+import styles from './styles/ActiveTodosStyles';
+import commonStyles from './styles';
 
 class ActiveTodosScreen extends Component {
 
@@ -25,13 +28,21 @@ class ActiveTodosScreen extends Component {
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     let actions = bindActionCreators(TodoActionCreators, dispatch);
 
+    this.leftOpenValue = Dimensions.get('window').width;
+    this.rightOpenValue = -Dimensions.get('window').width;
+
     return (
-      <View style={styles.container} >
-        {Title('My Todo List!')}
+      <View style={commonStyles.container} >
+        { Title(config.constants.active_screen.title) }
         <View style={styles.header}>
           <View style={styles.inputContainer}>
             <Input
-              placeholder={'Type a todo, then hit enter!'}
+              placeholder={config.constants.active_screen.add_todo_placeholder}
+              placeholderTextColor={config.colors.white}
+              selectionColor={config.colors.golden}
+              underlineColorAndroid={config.colors.transparent}
+              maxLength={config.constants.active_screen.add_todo_input_maxlength}
+              clearTextOnFocus={config.constants.active_screen.add_todo_input_clear_text_on_focus}
               onSubmitEditing={actions.addTodo}
             />
           </View>
@@ -40,37 +51,41 @@ class ActiveTodosScreen extends Component {
         <SwipeListView
           dataSource={ds.cloneWithRows(todos)}
           keyExtractor={todo => todo.id}
-          extraData={this.props}
           enableEmptySections={true}
-          renderRow={( item, secId, rowId ) => (
+          renderRow={(item, secId, rowId) => (
             <ListRowActive
               todo={{...item}}
               index={rowId}
               {...actions}
             />
           )}
-          renderLeftRow={ data => (
-    				<View style={styles.rowLeft}>
+          renderLeftRow={data => (
+    				<View style={commonStyles.rowLeft}>
               <Icon
-                 style={styles.icon}
-                 name="check" size={20}
+                 style={commonStyles.icon}
+                 name={config.icons.check}
+                 size={config.constants.hidden_row_icon_size}
                />
     				</View>
     			)}
-          renderRightRow={ data => (
-    				<View style={styles.rowRight}>
+          renderRightRow={data => (
+    				<View style={commonStyles.rowRight}>
                <Icon
-                  style={styles.icon}
-                  name="times" size={20}
+                  style={commonStyles.icon}
+                  name={config.icons.times}
+                  size={config.constants.hidden_row_icon_size}
                 />
     				</View>
     			)}
-          renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
-          swipeDuration={200}
-          closeOnRowBeginSwipe={true}
-          swipeToOpenPercent={40}
-          leftOpenValue={Dimensions.get('window').width}
-          rightOpenValue={-Dimensions.get('window').width}
+          renderSeparator={(sectionId, rowId) => (
+            <View
+              key={rowId}
+              style={commonStyles.separator} />
+          )}
+          swipeDuration={config.constants.row_swipe_duration}
+          swipeToOpenPercent={config.constants.row_swipe_open_percent}
+          leftOpenValue={this.leftOpenValue}
+          rightOpenValue={this.rightOpenValue}
           onSwipeLeftComplete={actions.deleteActiveTodo}
           onSwipeRightComplete={(rowId) => {
             actions.completeTodo(rowId);
@@ -79,57 +94,13 @@ class ActiveTodosScreen extends Component {
          />
       </View>
     );
-  }
+  };
 
-}
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: (Platform.OS === 'ios') ? 20 : 0,
-    flex: 1,
-    backgroundColor: '#1B2127',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    height: 75
-  },
-  inputContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
-  },
-  rowLeft: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    paddingLeft: 20,
-    paddingRight: 20,
-    backgroundColor: 'green'
-  },
-  rowRight: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    paddingLeft: 20,
-    paddingRight: 20,
-    backgroundColor: '#FE4D33'
-  },
-  icon: {
-    color: 'white',
-  },
-  separator: {
-    flex: 1,
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: '#182129',
-  }
-});
+};
 
 const mapStateToProps = (state) => ({
   todosReducer: state.todosReducer,
   nav: state.nav,
-})
+});
 
-export default connect(mapStateToProps)(ActiveTodosScreen)
+export default connect(mapStateToProps)(ActiveTodosScreen);

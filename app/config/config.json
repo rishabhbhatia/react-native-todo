@@ -13,5 +13,28 @@
       "on_todo_edited": "ON_TODO_EDITED",
       "complete_todo": "COMPLETE_TODO"
     }
+  },
+  "colors": {
+    "golden": "#e7d629",
+    "white": "#ffffff",
+    "transparent": "transparent"
+  },
+  "constants": {
+    "active_screen": {
+      "title": "My Todo List!",
+      "add_todo_placeholder": "Type a todo, then hit enter!",
+      "add_todo_input_maxlength": 25,
+      "add_todo_input_clear_text_on_focus": true,
+    },
+    "completed_screen": {
+      "title": "Completed Todos!",
+    },
+    "hidden_row_icon_size": 20,
+    "row_swipe_duration": 200,
+    "row_swipe_open_percent": 40,
+  },
+  "icons": {
+    "check": "check",
+    "times": "times",
   }
 }
