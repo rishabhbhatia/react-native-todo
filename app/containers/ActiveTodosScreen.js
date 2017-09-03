@@ -18,6 +18,7 @@ import DateView from '../components/DateView';
 import styles from './styles/ActiveTodosStyles';
 import commonStyles from './styles';
 
+
 class ActiveTodosScreen extends Component {
 
   render() {
@@ -33,16 +34,16 @@ class ActiveTodosScreen extends Component {
 
     return (
       <View style={commonStyles.container} >
-        { Title(config.constants.active_screen.title) }
+        { Title(config.constants.active_todos_screen.title) }
         <View style={styles.header}>
           <View style={styles.inputContainer}>
             <Input
-              placeholder={config.constants.active_screen.add_todo_placeholder}
+              placeholder={config.constants.active_todos_screen.add_todo_placeholder}
               placeholderTextColor={config.colors.white}
               selectionColor={config.colors.golden}
               underlineColorAndroid={config.colors.transparent}
-              maxLength={config.constants.active_screen.add_todo_input_maxlength}
-              clearTextOnFocus={config.constants.active_screen.add_todo_input_clear_text_on_focus}
+              maxLength={config.constants.active_todos_screen.add_todo_input_maxlength}
+              clearTextOnFocus={config.constants.active_todos_screen.add_todo_input_clear_text_on_focus}
               onSubmitEditing={actions.addTodo}
             />
           </View>

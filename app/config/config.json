@@ -20,13 +20,13 @@
     "transparent": "transparent"
   },
   "constants": {
-    "active_screen": {
+    "active_todos_screen": {
       "title": "My Todo List!",
       "add_todo_placeholder": "Type a todo, then hit enter!",
       "add_todo_input_maxlength": 25,
       "add_todo_input_clear_text_on_focus": true,
     },
-    "completed_screen": {
+    "completed_todos_screen": {
       "title": "Completed Todos!",
     },
     "hidden_row_icon_size": 20,
