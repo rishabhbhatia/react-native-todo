@@ -1,6 +1,6 @@
-## Todo's app Preview [(Watch it on YouTube)](https://www.youtube.com/watch?v=c7jxx_t5Eos)
+## Todo's app Preview [(Watch it on YouTube)](https://youtu.be/Dql1nQ73CY4)
 
-![alt text](http://res.cloudinary.com/randomstuffibuy/image/upload/v1504115057/github/todo-app-v0.3.gif)
+![alt text](http://res.cloudinary.com/randomstuffibuy/image/upload/v1504442580/github/todo-mobile/todo-app-v1.0.gif)
 
 ## Running
 
@@ -10,6 +10,11 @@
 * `cd Todo`
 * Run `npm install`
 * Run `npm start`
+* Press `i` to run in iOS simulator or press `a` for Android
+
+#### Mobile Device
+* Download Expo app
+* Scan QR code from mobile or Open explore tab, Press search and Enter url shown in terminal.
 
 ## React and Expo versions
 
@@ -20,7 +25,7 @@
 
 ## Credits
 
-Todo's enter and exit animation: Spencer Carli [Medium](https://hackernoon.com/how-to-animate-the-items-of-a-react-native-flatlist-32c8cbf7ea3d)
+UI Inspiration: Tob Siripak [(Dribbble)](https://dribbble.com/shots/1074906-GIF-Delete-task-and-assign-task-to-your-teammate-in-action)
 
 ## License
 
