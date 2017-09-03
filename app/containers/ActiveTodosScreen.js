@@ -7,11 +7,13 @@ import { bindActionCreators } from 'redux';
 
 import SwipeListView from '../lib';
 
+import generateDates from '../data/TodoDatesGenerator';
 import * as TodoActionCreators from '../redux/actions/TodoActionCreators';
 
 import Title from '../components/Title';
 import Input from '../components/Input';
 import ListRowActive from '../components/ListRowActive';
+import DateSelector from '../components/DateSelector';
 
 
 class ActiveTodosScreen extends Component {
@@ -27,10 +29,7 @@ class ActiveTodosScreen extends Component {
     return (
       <View style={styles.container} >
         {Title('My Todo List!')}
-        <Input
-          placeholder={'Type a todo, then hit enter!'}
-          onSubmitEditing={actions.addTodo}
-        />
+        <DateSelector style={styles.date} dates={generateDates()}/>
         <SwipeListView
           dataSource={ds.cloneWithRows(todos)}
           keyExtractor={todo => todo.id}
@@ -82,6 +81,16 @@ const styles = StyleSheet.create({
     marginTop: (Platform.OS === 'ios') ? 20 : 0,
     flex: 1,
     backgroundColor: '#1B2127',
+  },
+  date: {
+    borderRadius: 2,
+    borderColor: '#1B2127',
+    borderBottomWidth: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 3,
   },
   rowLeft: {
     flex: 1,
