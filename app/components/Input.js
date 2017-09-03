@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { Animated, View, TextInput, StyleSheet } from 'react-native'
+import React, { Component } from 'react';
+import { Animated, View, TextInput, StyleSheet } from 'react-native';
 
 export default class Input extends Component {
 
@@ -56,5 +56,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#526373',
     color: 'white',
     fontSize: 15,
+    borderRadius: 3
   },
 })
