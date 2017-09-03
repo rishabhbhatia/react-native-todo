@@ -32,7 +32,10 @@ const AppNavigator = TabNavigator({
     navigationOptions: {
       tabBarLabel: 'Active',
       tabBarIcon: ({tintColor, focused}) => (
-         <Icon name="pencil-square-o" size={18} style={{ color: tintColor }} />
+         <Icon
+           name="pencil-square-o"
+           size={18}
+           style={{ color: tintColor }} />
       )
     }
   },
@@ -41,7 +44,10 @@ const AppNavigator = TabNavigator({
     navigationOptions: {
       tabBarLabel: 'Completed',
       tabBarIcon: ({tintColor, focused}) => (
-         <Icon name="check-square-o" size={18} style={{ color: tintColor }} />
+         <Icon
+           name="check-square-o"
+           size={18}
+           style={{ color: tintColor }} />
       )
     }
   },

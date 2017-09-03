@@ -27,6 +27,6 @@ export function deleteCompletedTodo(index) {
 export function completeTodo(index) {
   return {
     type: actions.complete_todo,
-    payload: {index}
+    payload: index
   };
 };

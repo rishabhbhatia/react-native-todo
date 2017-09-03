@@ -62,7 +62,7 @@ const todosReducer = (state = initialState, action) => {
             active: {
               ...state.active,
               todos: activeTodos.map((todo, index) => {
-                if (index === payload.index) {
+                if (index === payload) {
                   completedTodo = todo;
                   return {
                     ...todo,
