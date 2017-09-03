@@ -35,7 +35,6 @@ class SwipeRow extends Component {
 			swipingLeft: true
 		};
 		this._translateX = new Animated.Value(0);
-		console.log('hello '+this.props.rowId);
 	}
 
 	componentWillMount() {

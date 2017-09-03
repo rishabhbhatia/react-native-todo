@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Platform } from 'react-native'
+
+const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 
 const Title = (title) => {
 
@@ -13,7 +15,6 @@ const Title = (title) => {
 const styles = StyleSheet.create({
   header: {
     backgroundColor: '#313842',
-    padding: 15,
     borderRadius: 2,
     borderColor: '#1B2127',
     borderBottomWidth: 1,
@@ -22,6 +23,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 3,
+    height: APPBAR_HEIGHT,
+    justifyContent: 'center',
   },
   title: {
     textAlign: 'center',

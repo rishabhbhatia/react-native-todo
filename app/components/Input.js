@@ -38,6 +38,7 @@ export default class Input extends Component {
         placeholder={placeholder}
         placeholderTextColor="white"
         selectionColor='#e7d629'
+        underlineColorAndroid='transparent'
         maxLength={100}
         clearTextOnFocus={true}
         onFocus={this.onFocus}

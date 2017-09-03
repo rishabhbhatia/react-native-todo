@@ -30,20 +30,20 @@ const AppNavigator = TabNavigator({
   ActiveTodos: {
     screen: ActiveTodosScreen,
     navigationOptions: {
-        tabBarLabel: 'Active',
-        tabBarIcon: ({tintColor, focused}) => (
-           <Icon name="pencil-square-o" size={18} style={{ color: tintColor }} />
-        )
-      }
+      tabBarLabel: 'Active',
+      tabBarIcon: ({tintColor, focused}) => (
+         <Icon name="pencil-square-o" size={18} style={{ color: tintColor }} />
+      )
+    }
   },
   CompletedTodos: {
     screen: CompletedTodosScreen,
     navigationOptions: {
-        tabBarLabel: 'Completed',
-        tabBarIcon: ({tintColor, focused}) => (
-           <Icon name="check-square-o" size={18} style={{ color: tintColor }} />
-        )
-      }
+      tabBarLabel: 'Completed',
+      tabBarIcon: ({tintColor, focused}) => (
+         <Icon name="check-square-o" size={18} style={{ color: tintColor }} />
+      )
+    }
   },
 }, tabBarConfig);
 

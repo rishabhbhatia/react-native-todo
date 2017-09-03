@@ -47,7 +47,7 @@ class CompletedTodosScreen extends Component {
     				</View>
     			)}
           renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
-          swipeDuration={500}
+          swipeDuration={200}
           disableRightSwipe={true}
           closeOnRowBeginSwipe={true}
           swipeToOpenPercent={40}
