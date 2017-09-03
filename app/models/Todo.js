@@ -1,10 +1,12 @@
 import uuid from 'uuid';
+import moment from 'moment';
 
 class Todo {
 
   constructor(todo) {
     this.id = uuid.v1();
     this.text = todo.text;
+    this.time = moment().startOf('hour').fromNow();
     this.type = 'active';
     this.completed = false;
   }

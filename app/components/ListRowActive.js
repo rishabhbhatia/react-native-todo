@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Animated } from 'react-native';
 
+import moment from 'moment';
+
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const ANIMATION_DURATION = 250;
@@ -49,10 +51,13 @@ class ListRowActive extends Component {
           <View style={styles.timelineVerticalLink} />
           <Icon
              style={styles.icon}
-             name="circle" size={8}
+             name="circle" size={6}
            />
         </View>
-        <Text style={styles.text}>{todo.text}</Text>
+        <View style={styles.content}>
+          <Text style={styles.text}>{todo.text}</Text>
+          <Text style={styles.time}>{moment().endOf('hour').fromNow()}</Text>
+        </View>
       </View>
     );
   }
@@ -86,13 +91,24 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignItems: 'center'
   },
-  text: {
+  content: {
     flex: 1,
-    fontSize: 16,
-    fontWeight: '600',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
     paddingRight: 10,
     paddingLeft: 10,
+    paddingTop: 10,
+  },
+  text: {
+    fontSize: 17,
+    fontWeight: '500',
     color: 'white',
+  },
+  time: {
+    fontSize: 10,
+    fontWeight: '400',
+    color: '#828B7B',
   }
 });
 
