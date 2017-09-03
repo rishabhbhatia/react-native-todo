@@ -48,7 +48,7 @@ class CompletedTodosScreen extends Component {
                <Icon
                   style={commonStyles.icon}
                   name={config.icons.times}
-                  size={20}
+                  size={config.constants.hidden_row_icon_size}
                 />
     				</View>
     			)}
@@ -57,10 +57,9 @@ class CompletedTodosScreen extends Component {
               key={rowId}
               style={commonStyles.separator} />
             )}
-          swipeDuration={200}
-          disableRightSwipe={true}
-          closeOnRowBeginSwipe={true}
-          swipeToOpenPercent={40}
+          swipeDuration={config.constants.row_swipe_duration}
+          swipeToOpenPercent={config.constants.row_swipe_open_percent}
+          disableRightSwipe={config.constants.completed_todos_screen.disable_right_swipe}
           rightOpenValue={this.rightOpenValue}
           onSwipeLeftComplete={actions.deleteCompletedTodo}
          />

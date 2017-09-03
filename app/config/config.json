@@ -28,6 +28,7 @@
     },
     "completed_todos_screen": {
       "title": "Completed Todos!",
+      "disable_right_swipe": true,
     },
     "hidden_row_icon_size": 20,
     "row_swipe_duration": 200,
