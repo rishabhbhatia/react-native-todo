@@ -11,7 +11,6 @@ const initialState = {
   active: {
     todos: [new Todo({ 'id': 1, 'text':'Go for a walk'}), new Todo({ 'id': 2, 'text':'Meeting at 11 AM'}),
      new Todo({ 'id': 3, 'text':'Coffee in morning'})],
-    editModeIndex: -1,
   },
   completed: {
     todos: [todoFour, todoFive],
@@ -20,8 +19,7 @@ const initialState = {
 
 const todosReducer = (state = initialState, action) => {
 
-    const {active} = state;
-    const {completed} = state;
+    const {active, completed} = state;
 
     const activeTodos = active.todos;
     const completedTodos = completed.todos;
@@ -57,45 +55,8 @@ const todosReducer = (state = initialState, action) => {
               }
             }
           break;
-      case actions.turn_on_edit_mode:
-          return {
-            ...state,
-            active: {
-              ...state.active,
-              editModeIndex: payload
-            }
-          }
-        break;
-      case actions.turn_off_edit_mode:
-          return {
-            ...state,
-            active: {
-              ...state.active,
-              editModeIndex: payload
-            }
-          }
-        break;
-      case actions.on_todo_edited:
-          return {
-            ...state,
-            active: {
-              ...state.active,
-              todos: activeTodos.map((todo, index) => {
-                if (index === payload.index) {
-                  return {
-                    ...todo,
-                    text: payload.newText
-                  }
-                }
-                return todo
-              }),
-            }
-          }
-        break;
       case actions.complete_todo:
-
           let completedTodo;
-
           return {
             ...state,
             active: {
@@ -117,8 +78,7 @@ const todosReducer = (state = initialState, action) => {
           }
         break;
       default: return state;
-
-    }
-}
+    };
+};
 
 export default todosReducer;

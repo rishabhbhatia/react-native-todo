@@ -8,9 +8,6 @@
       "add_todo": "ADD_TODO",
       "delete_active_todo": "DELETE_ACTIVE_TODO",
       "delete_completed_todo": "DELETE_COMPLETED_TODO",
-      "turn_on_edit_mode": "EDIT_TODO_MODE_ON",
-      "turn_off_edit_mode": "EDIT_TODO_MODE_OFF",
-      "on_todo_edited": "ON_TODO_EDITED",
       "complete_todo": "COMPLETE_TODO"
     }
   },
