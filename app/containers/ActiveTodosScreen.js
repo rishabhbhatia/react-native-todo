@@ -28,8 +28,6 @@ class ActiveTodosScreen extends Component {
     const {todos} = active;
     const {addTodo, completeTodo, deleteActiveTodo} = this.props;
 
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
     this.leftOpenValue = Dimensions.get('window').width;
     this.rightOpenValue = -Dimensions.get('window').width;
 
@@ -51,17 +49,17 @@ class ActiveTodosScreen extends Component {
           <DateView />
         </View>
         <SwipeListView
-          dataSource={ds.cloneWithRows(todos)}
+          data={todos}
           keyExtractor={todo => todo.id}
           enableEmptySections={true}
-          renderRow={(item, secId, rowId) => (
+          renderItem={(item, index) => (
             <TodoRowItem
               todo={{...item}}
-              index={rowId}
+              index={index}
               time={moment().startOf('hour').fromNow()}
             />
           )}
-          renderLeftRow={data => (
+          renderLeftRow={(item, index) => (
     				<View style={commonStyles.rowLeft}>
               <Icon
                  style={commonStyles.icon}
@@ -70,7 +68,7 @@ class ActiveTodosScreen extends Component {
                />
     				</View>
     			)}
-          renderRightRow={data => (
+          renderRightRow={(item, index) => (
     				<View style={commonStyles.rowRight}>
                <Icon
                   style={commonStyles.icon}
@@ -79,19 +77,17 @@ class ActiveTodosScreen extends Component {
                 />
     				</View>
     			)}
-          renderSeparator={(sectionId, rowId) => (
-            <View
-              key={rowId}
-              style={commonStyles.separator} />
+          renderSeparator={() => (
+            <View style={commonStyles.separator} />
           )}
           swipeDuration={config.constants.row_swipe_duration}
           swipeToOpenPercent={config.constants.row_swipe_open_percent}
           leftOpenValue={this.leftOpenValue}
           rightOpenValue={this.rightOpenValue}
-          onSwipeLeftComplete={deleteActiveTodo}
-          onSwipeRightComplete={(rowId) => {
-            completeTodo(rowId);
-            deleteActiveTodo(rowId);
+          onSwipedLeft={deleteActiveTodo}
+          onSwipedRight={(index) => {
+            completeTodo(index);
+            deleteActiveTodo(index);
           }}
          />
       </View>

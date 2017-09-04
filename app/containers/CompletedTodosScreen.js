@@ -26,26 +26,24 @@ class CompletedTodosScreen extends Component {
 
     const {deleteCompletedTodo} = this.props;
 
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
     this.rightOpenValue = -Dimensions.get('window').width;
 
     return (
       <View style={commonStyles.container}>
         { Title(config.constants.completed_todos_screen.title)  }
         <SwipeListView
-          dataSource={ds.cloneWithRows(todos)}
+          data={todos}
           keyExtractor={todo => todo.id}
           extraData={this.props}
           enableEmptySections={true}
-          renderRow={ (item, secId, rowId) => (
+          renderItem={(item, index) => (
             <TodoRowItem
               todo={{...item}}
-              index={rowId}
+              index={index}
               time={moment().endOf('hour').fromNow()}
             />
           )}
-          renderRightRow={data => (
+          renderRightRow={(item, index) => (
     				<View style={commonStyles.rowRight}>
                <Icon
                   style={commonStyles.icon}
@@ -54,16 +52,14 @@ class CompletedTodosScreen extends Component {
                 />
     				</View>
     			)}
-          renderSeparator={(sectionId, rowId) => (
-            <View
-              key={rowId}
-              style={commonStyles.separator} />
+          renderSeparator={(item, index) => (
+            <View style={commonStyles.separator} />
             )}
           swipeDuration={config.constants.row_swipe_duration}
           swipeToOpenPercent={config.constants.row_swipe_open_percent}
           disableRightSwipe={config.constants.completed_todos_screen.disable_right_swipe}
           rightOpenValue={this.rightOpenValue}
-          onSwipeLeftComplete={deleteCompletedTodo}
+          onSwipedLeft={deleteCompletedTodo}
          />
       </View>
     );

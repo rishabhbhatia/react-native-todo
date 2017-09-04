@@ -1,7 +1,5 @@
-'use strict';
-
 import React, {Component, PropTypes} from 'react';
-import {ListView, Text, View} from 'react-native';
+import {ListView, FlatList, Text, View} from 'react-native';
 
 import SwipeRow from './SwipeRow';
 
@@ -13,125 +11,61 @@ class SwipeListView extends Component {
 	constructor(props){
 		super(props);
 		this._rows = {};
-		this.openCellId = null;
 	}
 
-	setScrollEnabled(enable) {
-		this._listView.setNativeProps({scrollEnabled: enable});
+	setRefs = (ref) => {
+		if(this.props.listRef)
+			this.props.listRef(ref);
 	}
 
-	safeCloseOpenRow() {
-		// if the openCellId is stale due to deleting a row this could be undefined
-		if (this._rows[this.openCellId]) {
-			this._rows[this.openCellId].closeRow();
-		}
-	}
+	renderItem = (item, index) => {
 
-	rowSwipeGestureBegan(id) {
-		if (this.openCellId && this.openCellId !== id) {
-			this.safeCloseOpenRow();
-		}
-	}
-
-	onRowOpen(secId, rowId, rowMap) {
-		const cellIdentifier = `${secId}${rowId}`;
-		if (this.openCellId && this.openCellId !== cellIdentifier) {
-			this.safeCloseOpenRow();
-		}
-		this.openCellId = cellIdentifier;
-		this.props.onRowOpen && this.props.onRowOpen(secId, rowId, rowMap);
-	}
-
-	onRowPress(id) {
-		if (this.openCellId) {
-			if (this.props.closeOnRowPress) {
-				this.safeCloseOpenRow();
-				this.openCellId = null;
-			}
-		}
-	}
-
-	onScroll(e) {
-		if (this.openCellId) {
-			if (this.props.closeOnScroll) {
-				this.safeCloseOpenRow();
-				this.openCellId = null;
-			}
-		}
-		this.props.onScroll && this.props.onScroll(e);
-	}
-
-	setRefs(ref) {
-		this._listView = ref;
-		this.props.listViewRef && this.props.listViewRef(ref);
-	}
-
-	renderRow(rowData, secId, rowId, rowMap) {
-		const Component = this.props.renderRow(rowData, secId, rowId, rowMap);
+		const Component = this.props.renderItem(item, index);
 
 		if (!this.props.renderLeftRow && !this.props.renderRightRow) {
 			return React.cloneElement(
 				Component,
 				{
 					...Component.props,
-					ref: row => this._rows[`${secId}${rowId}`] = row,
-					onRowOpen: _ => this.onRowOpen(secId, rowId, this._rows),
-					onRowDidOpen: _ => this.props.onRowDidOpen && this.props.onRowDidOpen(secId, rowId, this._rows),
-					onRowClose: _ => this.props.onRowClose && this.props.onRowClose(secId, rowId, this._rows),
-					onRowDidClose: _ => this.props.onRowDidClose && this.props.onRowDidClose(secId, rowId, this._rows),
-					onRowPress: _ => this.onRowPress(`${secId}${rowId}`),
-					setScrollEnabled: enable => this.setScrollEnabled(enable),
-					swipeGestureBegan: _ => this.rowSwipeGestureBegan(`${secId}${rowId}`)
 				}
 			);
 		} else {
-			const previewRowId = this.props.dataSource && this.props.dataSource.getRowIDForFlatIndex(this.props.previewRowIndex || 0);
 			return (
 				<SwipeRow
-					ref={row => this._rows[`${secId}${rowId}`] = row}
-					swipeGestureBegan={ _ => this.rowSwipeGestureBegan(`${secId}${rowId}`) }
-					onRowOpen={ _ => this.onRowOpen(secId, rowId, this._rows) }
-					onRowDidOpen={ _ => this.props.onRowDidOpen && this.props.onRowDidOpen(secId, rowId, this._rows)}
-					onRowClose={ _ => this.props.onRowClose && this.props.onRowClose(secId, rowId, this._rows) }
-					onRowDidClose={ _ => this.props.onRowDidClose && this.props.onRowDidClose(secId, rowId, this._rows) }
-					onRowPress={ _ => this.onRowPress(`${secId}${rowId}`) }
-					setScrollEnabled={ (enable) => this.setScrollEnabled(enable) }
+					ref={row => this._rows[(index)] = row}
 					leftOpenValue={this.props.leftOpenValue}
 					rightOpenValue={this.props.rightOpenValue}
-					onSwipeLeftComplete={this.props.onSwipeLeftComplete}
-					onSwipeRightComplete={this.props.onSwipeRightComplete}
-					closeOnRowPress={this.props.closeOnRowPress}
+					onSwipedLeft={this.props.onSwipedLeft}
+					onSwipedRight={this.props.onSwipedRight}
 					disableLeftSwipe={this.props.disableLeftSwipe}
 					disableRightSwipe={this.props.disableRightSwipe}
-					stopLeftSwipe={this.props.stopLeftSwipe}
-					stopRightSwipe={this.props.stopRightSwipe}
 					recalculateHiddenLayout={this.props.recalculateHiddenLayout}
 					style={this.props.swipeRowStyle}
-					preview={(this.props.previewFirstRow || this.props.previewRowIndex) && rowId === previewRowId}
+					previewFirstRow={this.props.previewFirstRow}
 					swipeDuration={this.props.swipeDuration}
 					previewDuration={this.props.previewDuration}
 					previewOpenValue={this.props.previewOpenValue}
-					tension={this.props.tension}
-					friction={this.props.friction}
-					directionalDistanceChangeThreshold={this.props.directionalDistanceChangeThreshold}
 					swipeToOpenPercent={this.props.swipeToOpenPercent}
-          rowId={parseInt(rowId)}
-				>
-					{this.props.renderLeftRow ? this.props.renderLeftRow(rowData, secId, rowId, this._rows) : null}
-					{this.props.renderRightRow ? this.props.renderRightRow(rowData, secId, rowId, this._rows) : null}
-					{this.props.renderRow ? this.props.renderRow(rowData, secId, rowId, this._rows) : null}
-				</SwipeRow>
+					renderLeftRow={this.props.renderLeftRow}
+					renderRightRow={this.props.renderRightRow}
+					renderItem={this.props.renderItem}
+					item={item}
+					index={index}
+				/>
 			);
 		}
-	}
+	};
+
 
 	render() {
 		return (
-			<ListView
+			<FlatList
+				data={this.props.data}
+				keyExtractor={this.props.keyExtractor}
 				{...this.props}
-				ref={ c => this.setRefs(c) }
-				onScroll={ e => this.onScroll(e) }
-				renderRow={(rowData, secId, rowId) => this.renderRow(rowData, secId, rowId, this._rows)}
+				ref={ (list) => this.setRefs(list) }
+				renderItem={({item, index}) => this.renderItem(item, index)}
+				ItemSeparatorComponent={this.props.renderSeparator}
 			/>
 		)
 	}
@@ -140,9 +74,13 @@ class SwipeListView extends Component {
 
 SwipeListView.propTypes = {
 	/**
-	 * How to render a row. Should return a valid React Element.
+	 * TranslateX value for opening the row to the left (positive number)
 	 */
-	renderRow: PropTypes.func.isRequired,
+	leftOpenValue: PropTypes.number,
+	/**
+	 * TranslateX value for opening the row to the right (negative number)
+	 */
+	rightOpenValue: PropTypes.number,
 	/**
 	 * How to render a left hidden row (renders behind the row). Should return a valid React Element.
 	 * This is required unless renderRow is passing a SwipeRow.
@@ -154,29 +92,13 @@ SwipeListView.propTypes = {
 	 */
 	renderRightRow: PropTypes.func,
 	/**
-	 * TranslateX value for opening the row to the left (positive number)
+	 * How to render row item. Should return a valid React Element.
 	 */
-	leftOpenValue: PropTypes.number,
+	renderItem: PropTypes.func.isRequired,
 	/**
-	 * TranslateX value for opening the row to the right (negative number)
+	 * Row separator component
 	 */
-	rightOpenValue: PropTypes.number,
-	/**
-	 * TranslateX value for stop the row to the left (positive number)
-	 */
-	stopLeftSwipe: PropTypes.number,
-	/**
-	 * TranslateX value for stop the row to the right (negative number)
-	 */
-	stopRightSwipe: PropTypes.number,
-	/**
-	 * Should open rows be closed when the listView begins scrolling
-	 */
-	closeOnScroll: PropTypes.bool,
-	/**
-	 * Should open rows be closed when a row is pressed
-	 */
-	closeOnRowPress: PropTypes.bool,
+	renderSeparator: PropTypes.func,
 	/**
 	 * Disable ability to swipe rows left
 	 */
@@ -185,6 +107,18 @@ SwipeListView.propTypes = {
 	 * Disable ability to swipe rows right
 	 */
 	disableRightSwipe: PropTypes.bool,
+	/**
+	 * Called when left swipe is compelted
+	 */
+	onSwipedLeft: PropTypes.func,
+	/**
+	 * Called when right swipe is compelted
+	 */
+	onSwipedRight: PropTypes.func,
+	/**
+	 * Styles for the parent wrapper View of the SwipeRow
+	 */
+	swipeRowStyle: View.propTypes.style,
 	/**
 	 * Enable hidden row onLayout calculations to run always.
 	 *
@@ -195,26 +129,6 @@ SwipeListView.propTypes = {
 	 * One case is a SwipeListView with rows of different heights and an options to delete rows.
 	 */
 	recalculateHiddenLayout: PropTypes.bool,
-	/**
-	 * Called when a swipe row is animating open
-	 */
-	onRowOpen: PropTypes.func,
-	/**
-	 * Called when a swipe row has animated open
-	 */
-	onRowDidOpen: PropTypes.func,
-	/**
-	 * Called when a swipe row is animating closed
-	 */
-	onRowClose: PropTypes.func,
-	/**
-	 * Called when a swipe row has animated closed
-	 */
-	onRowDidClose: PropTypes.func,
-	/**
-	 * Styles for the parent wrapper View of the SwipeRow
-	 */
-	swipeRowStyle: View.propTypes.style,
 	/**
 	 * Called when the ListView ref is set and passes a ref to the ListView
 	 * e.g. listViewRef={ ref => this._swipeListViewRef = ref }
@@ -244,14 +158,6 @@ SwipeListView.propTypes = {
 	 */
 	previewOpenValue: PropTypes.number,
 	/**
-	 * Friction for the open / close animation
-	 */
-	friction: PropTypes.number,
-	/**
-	 * Tension for the open / close animation
-	 */
-	tension: PropTypes.number,
-	/**
 	 * The dx value used to detect when a user has begun a swipe gesture
 	 */
 	directionalDistanceChangeThreshold: PropTypes.number,
@@ -265,12 +171,10 @@ SwipeListView.propTypes = {
 SwipeListView.defaultProps = {
 	leftOpenValue: 0,
 	rightOpenValue: 0,
-	closeOnScroll: true,
-	closeOnRowPress: true,
 	disableLeftSwipe: false,
 	disableRightSwipe: false,
-	recalculateHiddenLayout: false,
 	previewFirstRow: false,
+	recalculateHiddenLayout: false,
 	directionalDistanceChangeThreshold: 2,
 	swipeToOpenPercent: 50
 }
