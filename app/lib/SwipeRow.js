@@ -22,11 +22,11 @@ export default class SwipeRow extends Component {
 		this.rowItemJustSwiped = false;
 		this.swipeInitialX = null;
 		this.ranPreview = false;
-		this.swipingLeft = this.props.swipingLeft;
 		this.state = {
 			dimensionsSet: false,
 			hiddenHeight: 0,
 			hiddenWidth: 0,
+			swipingLeft: this.props.swipingLeft
 		};
 		this._translateX = new Animated.Value(0);
 	}
@@ -97,14 +97,20 @@ export default class SwipeRow extends Component {
 
 			let toValue = 0;
 			if (this._translateX._value >= 0) {
-				this.swipingLeft = false;
+				this.setState({
+					...this.state,
+					swipingLeft: false
+				});
 
 				if (this._translateX._value > this.props.leftOpenValue * (this.props.swipeToOpenPercent/100)) {
 					toValue = this.props.leftOpenValue;
 					this.onSwipedRight(toValue);
 				}
 			} else {
-				this.swipingLeft = true;
+				this.setState({
+					...this.state,
+					swipingLeft: true
+				});
 
 				if (this._translateX._value < this.props.rightOpenValue * (this.props.swipeToOpenPercent/100)) {
 					toValue = this.props.rightOpenValue;
@@ -228,7 +234,7 @@ export default class SwipeRow extends Component {
 						width: this.state.hiddenWidth,
 					}
 				]}>
-					{this.swipingLeft ? ((this.props.renderRightRow && this.props.renderRightRow()) || null) :
+					{this.state.swipingLeft ? ((this.props.renderRightRow && this.props.renderRightRow()) || null) :
 						 ((this.props.renderLeftRow && this.props.renderLeftRow()) || null)}
 				</View>
 				{this.renderRowContent()}
