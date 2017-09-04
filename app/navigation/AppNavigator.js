@@ -2,26 +2,27 @@ import React from 'react';
 import { TabBarBottom, addNavigationHelpers, TabNavigator } from 'react-navigation';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
+import config from '../config';
 
 import ActiveTodosScreen from '../containers/ActiveTodosScreen';
 import CompletedTodosScreen from '../containers/CompletedTodosScreen';
 
 const tabBarConfig = {
   tabBarComponent: TabBarBottom,
-  tabBarPosition: 'bottom',
-  swipeEnabled: false,
-  animationEnabled: true,
-  lazy: false,
+  tabBarPosition: config.navigation.tab_bar_position,
+  swipeEnabled: config.navigation.swipe_enabled,
+  animationEnabled: config.navigation.animation_enabled,
+  lazy: config.navigation.lazy,
   tabBarOptions: {
-    activeTintColor: '#e7d629',
-    showLabel: true,
-    showIcon: true,
+    activeTintColor: config.colors.golden,
+    showLabel: config.navigation.show_label,
+    showIcon: config.navigation.show_icon,
     style: {
-      padding: 5,
-      backgroundColor: '#313842'
+      padding: config.navigation.tab_padding,
+      backgroundColor: config.colors.dim_gray
     },
     labelStyle: {
-      fontSize: 12
+      fontSize: config.navigation.label_font_size
     },
   }
 };
@@ -30,11 +31,11 @@ const AppNavigator = TabNavigator({
   ActiveTodos: {
     screen: ActiveTodosScreen,
     navigationOptions: {
-      tabBarLabel: 'Active',
+      tabBarLabel: config.navigation.label_active,
       tabBarIcon: ({tintColor, focused}) => (
          <Icon
-           name="pencil-square-o"
-           size={18}
+           name={config.icons.pencil_square}
+           size={config.navigation.tab_icon_size}
            style={{ color: tintColor }} />
       )
     }
@@ -42,11 +43,11 @@ const AppNavigator = TabNavigator({
   CompletedTodos: {
     screen: CompletedTodosScreen,
     navigationOptions: {
-      tabBarLabel: 'Completed',
+      tabBarLabel: config.navigation.label_completed,
       tabBarIcon: ({tintColor, focused}) => (
          <Icon
-           name="check-square-o"
-           size={18}
+           name={config.icons.check_square}
+           size={config.navigation.tab_icon_size}
            style={{ color: tintColor }} />
       )
     }

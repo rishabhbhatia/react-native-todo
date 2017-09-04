@@ -14,7 +14,9 @@
   "colors": {
     "golden": "#e7d629",
     "white": "#ffffff",
-    "transparent": "transparent"
+    "transparent": "transparent",
+    "dim_gray": "#313842",
+
   },
   "constants": {
     "active_todos_screen": {
@@ -36,5 +38,20 @@
     "check": "check",
     "times": "times",
     "circle": "circle",
+    "pencil_square": "pencil-square-o",
+    "check_square": "check-square-o"
+  },
+  "navigation": {
+    "label_active": "Active",
+    "label_completed": "Completed",
+    "tab_bar_position": "bottom",
+    "swipe_enabled": false,
+    "animation_enabled": true,
+    "lazy": false,
+    "show_label": true,
+    "show_icon": true,
+    "tab_padding": 5,
+    "label_font_size": 12,
+    "tab_icon_size": 18
   }
 }
