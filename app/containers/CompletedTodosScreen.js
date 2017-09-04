@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import moment from 'moment';
 
 import config from '../config';
-import SwipeListView from '../lib';
+import SwipeRow from '../lib';
 
 import * as TodoActionCreators from '../redux/actions/TodoActionCreators';
 
@@ -31,35 +31,37 @@ class CompletedTodosScreen extends Component {
     return (
       <View style={commonStyles.container}>
         { Title(config.constants.completed_todos_screen.title)  }
-        <SwipeListView
+        <FlatList
           data={todos}
           keyExtractor={todo => todo.id}
           extraData={this.props}
           enableEmptySections={true}
-          renderItem={(item, index) => (
-            <TodoRowItem
-              todo={{...item}}
-              index={index}
-              time={moment().endOf('hour').fromNow()}
+          ItemSeparatorComponent={() => <View style={commonStyles.separator} />}
+          renderItem={({item, index}) => (
+            <SwipeRow
+              renderItem={() => (
+                <TodoRowItem
+                  todo={{...item}}
+                  index={index}
+                  time={moment().endOf('hour').fromNow()}
+                />
+              )}
+              renderRightRow={() => (
+        				<View style={commonStyles.rowRight}>
+                   <Icon
+                      style={commonStyles.icon}
+                      name={config.icons.times}
+                      size={config.constants.hidden_row_icon_size}
+                    />
+        				</View>
+        			)}
+              swipeDuration={config.constants.row_swipe_duration}
+              swipeToOpenPercent={config.constants.row_swipe_open_percent}
+              disableRightSwipe={config.constants.completed_todos_screen.disable_right_swipe}
+              rightOpenValue={this.rightOpenValue}
+              onSwipedLeft={() => deleteCompletedTodo(index)}
             />
           )}
-          renderRightRow={(item, index) => (
-    				<View style={commonStyles.rowRight}>
-               <Icon
-                  style={commonStyles.icon}
-                  name={config.icons.times}
-                  size={config.constants.hidden_row_icon_size}
-                />
-    				</View>
-    			)}
-          renderSeparator={(item, index) => (
-            <View style={commonStyles.separator} />
-            )}
-          swipeDuration={config.constants.row_swipe_duration}
-          swipeToOpenPercent={config.constants.row_swipe_open_percent}
-          disableRightSwipe={config.constants.completed_todos_screen.disable_right_swipe}
-          rightOpenValue={this.rightOpenValue}
-          onSwipedLeft={deleteCompletedTodo}
          />
       </View>
     );

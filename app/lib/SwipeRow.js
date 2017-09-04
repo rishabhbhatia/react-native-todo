@@ -9,8 +9,7 @@ const PREVIEW_CLOSE_DELAY = 300;
 const TAG = 'SwipeRow';
 
 /**
- * Row that is generally used in a SwipeListView.
- * If you are rendering a SwipeRow explicitly you can mix-match SwipeRow with three children.
+ * SwipeRow can be rendered with three children.
  *
  * e.g.
   <SwipeRow
@@ -110,7 +109,7 @@ class SwipeRow extends Component {
 
 				if (this._translateX._value > this.props.leftOpenValue * (this.props.swipeToOpenPercent/100)) {
 					toValue = this.props.leftOpenValue;
-					console.log(TAG, 'More than halfway, swiping to right '+this.props.index);
+					console.log(TAG, 'More than halfway, swiping to right');
 					this.onSwipedRight(toValue);
 				}
 			} else {
@@ -121,7 +120,7 @@ class SwipeRow extends Component {
 
 				if (this._translateX._value < this.props.rightOpenValue * (this.props.swipeToOpenPercent/100)) {
 					toValue = this.props.rightOpenValue;
-					console.log(TAG, 'More than halfway, swiping to left '+this.props.index);
+					console.log(TAG, 'More than halfway, swiping to left');
 					this.onSwipedLeft(toValue);
 				}
 			}
@@ -137,9 +136,6 @@ class SwipeRow extends Component {
 		console.log(TAG, this.horizontalSwipeGestureEnded);
 	}
 
-	/*
-	 * This method is called by SwipeListView
-	 */
 	closeRow() {
 		console.log(TAG, 'close row called');
 		if(this.rowItemJustSwiped) {
@@ -160,29 +156,27 @@ class SwipeRow extends Component {
 	}
 
 	onSwipedLeft = (toValue) => {
-		const {onSwipedLeft, index} = this.props;
+		const {onSwipedLeft} = this.props;
 
 		this.horizontalSwipeGestureEnded = true;
 		this.rowItemJustSwiped = true;
 
 		this.manuallySwipeRow(toValue).then(() => {
-			console.log(TAG, 'Swipe left completed '+index);
 			if(onSwipedLeft)
-				onSwipedLeft(index);
+				onSwipedLeft();
 			this.closeRow();
 		});
 	}
 
 	onSwipedRight = (toValue) => {
-		const {onSwipedRight, index} = this.props;
+		const {onSwipedRight} = this.props;
 
 		this.horizontalSwipeGestureEnded = true;
 		this.rowItemJustSwiped = true;
 
 		this.manuallySwipeRow(toValue).then(() => {
-			console.log(TAG, 'Swipe right completed '+index);
 			if(onSwipedRight)
-				onSwipedRight(index);
+				onSwipedRight();
 			this.closeRow();
 		});
 	}
@@ -212,9 +206,8 @@ class SwipeRow extends Component {
 	}
 
 	renderVisibleContent = () => {
-		const {item, index} = this.props;
 		return (
-				this.props.renderItem(item, index)
+				this.props.renderItem()
 		);
 	};
 
@@ -261,7 +254,8 @@ class SwipeRow extends Component {
 						width: this.state.hiddenWidth,
 					}
 				]}>
-					{this.state.swipingLeft ? (this.props.renderRightRow() || null) : (this.props.renderLeftRow() || null)}
+					{this.state.swipingLeft ? ((this.props.renderRightRow && this.props.renderRightRow()) || null) :
+						 ((this.props.renderLeftRow && this.props.renderLeftRow()) || null)}
 				</View>
 				{this.renderRowContent()}
 			</View>
@@ -341,10 +335,6 @@ SwipeRow.propTypes = {
 	 * past to trigger the row opening.
 	 */
 	swipeToOpenPercent: PropTypes.number,
-	/**
-	 * Self row index in list
-	 */
-	index: PropTypes.number,
 	/**
 	 * Enable hidden row onLayout calculations to run always
 	 */

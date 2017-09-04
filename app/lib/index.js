@@ -1,3 +1,3 @@
-import SwipeListView from './SwipeListView'
+import SwipeRow from './SwipeRow'
 
-export default SwipeListView;
+export default SwipeRow;

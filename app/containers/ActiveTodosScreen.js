@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, ListView, View, Dimensions} from 'react-native';
+import { Text, ListView, FlatList, View, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { connect } from 'react-redux';
@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import moment from 'moment';
 
 import config from '../config';
-import SwipeListView from '../lib';
+import SwipeRow from '../lib';
 
 import * as TodoActionCreators from '../redux/actions/TodoActionCreators';
 
@@ -48,47 +48,49 @@ class ActiveTodosScreen extends Component {
           </View>
           <DateView />
         </View>
-        <SwipeListView
+        <FlatList
           data={todos}
           keyExtractor={todo => todo.id}
           enableEmptySections={true}
-          renderItem={(item, index) => (
-            <TodoRowItem
-              todo={{...item}}
-              index={index}
-              time={moment().startOf('hour').fromNow()}
+          ItemSeparatorComponent={() => <View style={commonStyles.separator} />}
+          renderItem={({item, index}) => (
+            <SwipeRow
+              renderItem={() => (
+                <TodoRowItem
+                  todo={{...item}}
+                  index={index}
+                  time={moment().startOf('hour').fromNow()}
+                />
+              )}
+              renderLeftRow={() => (
+        				<View style={commonStyles.rowLeft}>
+                  <Icon
+                     style={commonStyles.icon}
+                     name={config.icons.check}
+                     size={config.constants.hidden_row_icon_size}
+                   />
+        				</View>
+        			)}
+              renderRightRow={() => (
+        				<View style={commonStyles.rowRight}>
+                   <Icon
+                      style={commonStyles.icon}
+                      name={config.icons.times}
+                      size={config.constants.hidden_row_icon_size}
+                    />
+        				</View>
+        			)}
+              swipeDuration={config.constants.row_swipe_duration}
+              swipeToOpenPercent={config.constants.row_swipe_open_percent}
+              leftOpenValue={this.leftOpenValue}
+              rightOpenValue={this.rightOpenValue}
+              onSwipedLeft={() => deleteActiveTodo(index)}
+              onSwipedRight={() => {
+                completeTodo(index);
+                deleteActiveTodo(index);
+              }}
             />
           )}
-          renderLeftRow={(item, index) => (
-    				<View style={commonStyles.rowLeft}>
-              <Icon
-                 style={commonStyles.icon}
-                 name={config.icons.check}
-                 size={config.constants.hidden_row_icon_size}
-               />
-    				</View>
-    			)}
-          renderRightRow={(item, index) => (
-    				<View style={commonStyles.rowRight}>
-               <Icon
-                  style={commonStyles.icon}
-                  name={config.icons.times}
-                  size={config.constants.hidden_row_icon_size}
-                />
-    				</View>
-    			)}
-          renderSeparator={() => (
-            <View style={commonStyles.separator} />
-          )}
-          swipeDuration={config.constants.row_swipe_duration}
-          swipeToOpenPercent={config.constants.row_swipe_open_percent}
-          leftOpenValue={this.leftOpenValue}
-          rightOpenValue={this.rightOpenValue}
-          onSwipedLeft={deleteActiveTodo}
-          onSwipedRight={(index) => {
-            completeTodo(index);
-            deleteActiveTodo(index);
-          }}
          />
       </View>
     );
