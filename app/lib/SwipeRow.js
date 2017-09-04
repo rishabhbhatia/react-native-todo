@@ -3,22 +3,17 @@
 import React, {Component, PropTypes} from 'react';
 import {Animated, PanResponder, Platform, StyleSheet, TouchableOpacity, View} from 'react-native';
 
-const PREVIEW_OPEN_DELAY = 700;
-const PREVIEW_CLOSE_DELAY = 300;
-
-const TAG = 'SwipeRow';
-
 /**
- * SwipeRow can be rendered with three children.
+ * SwipeRow can be rendered individually or within a list with three children.
  *
  * e.g.
   <SwipeRow
+		renderItem={() => <Text>Visible Row</Text>}
 		renderLeftRow={() => <Text>Left Row</Text>}
 		renderRightRow={() => <Text>Right Row</Text>}
-		renderItem={() => <Text>Visible Row</Text>}
  	/>
  */
-class SwipeRow extends Component {
+export default class SwipeRow extends Component {
 
 	constructor(props) {
 		super(props);
@@ -27,11 +22,11 @@ class SwipeRow extends Component {
 		this.rowItemJustSwiped = false;
 		this.swipeInitialX = null;
 		this.ranPreview = false;
+		this.swipingLeft = this.props.swipingLeft;
 		this.state = {
 			dimensionsSet: false,
 			hiddenHeight: 0,
 			hiddenWidth: 0,
-			swipingLeft: true
 		};
 		this._translateX = new Animated.Value(0);
 	}
@@ -46,37 +41,37 @@ class SwipeRow extends Component {
 		});
 	}
 
-	getPreviewAnimation(toValue, delay) {
+	getPreviewAnimation = (toValue, delay) => {
 		return Animated.timing(
 			this._translateX,
 			{ duration: this.props.previewDuration, toValue, delay }
 		);
-	}
+	};
 
-	onContentLayout(e) {
+	onContentLayout = (e) => {
 		this.setState({
 			dimensionsSet: !this.props.recalculateHiddenLayout,
 			hiddenHeight: e.nativeEvent.layout.height,
 			hiddenWidth: e.nativeEvent.layout.width,
 		});
 
-		if (this.props.previewFirstRow && !this.ranPreview) {
+		if (this.props.previewSwipeDemo && !this.ranPreview) {
 			let {previewOpenValue} = this.props;
 			this.ranPreview = true;
 
-			this.getPreviewAnimation(previewOpenValue, PREVIEW_OPEN_DELAY)
+			this.getPreviewAnimation(previewOpenValue, this.props.previewOpenDelay)
 			.start( _ => {
-				this.getPreviewAnimation(0, PREVIEW_CLOSE_DELAY).start();
+				this.getPreviewAnimation(0, this.props.previewCloseDelay).start();
 			});
-		}
-	}
+		};
+	};
 
-	handleOnMoveShouldSetPanResponder(e, gs) {
+	handleOnMoveShouldSetPanResponder = (e, gs) => {
 		const { dx } = gs;
 		return Math.abs(dx) > this.props.directionalDistanceChangeThreshold;
-	}
+	};
 
-	handlePanResponderMove(e, gestureState) {
+	handlePanResponderMove = (e, gestureState) => {
 		const { dx, dy } = gestureState;
 		const absDx = Math.abs(dx);
 		const absDy = Math.abs(dy);
@@ -102,48 +97,34 @@ class SwipeRow extends Component {
 
 			let toValue = 0;
 			if (this._translateX._value >= 0) {
-				this.setState({
-					...this.state,
-					swipingLeft: false
-				});
+				this.swipingLeft = false;
 
 				if (this._translateX._value > this.props.leftOpenValue * (this.props.swipeToOpenPercent/100)) {
 					toValue = this.props.leftOpenValue;
-					console.log(TAG, 'More than halfway, swiping to right');
 					this.onSwipedRight(toValue);
 				}
 			} else {
-				this.setState({
-					...this.state,
-					swipingLeft: true
-				});
+				this.swipingLeft = true;
 
 				if (this._translateX._value < this.props.rightOpenValue * (this.props.swipeToOpenPercent/100)) {
 					toValue = this.props.rightOpenValue;
-					console.log(TAG, 'More than halfway, swiping to left');
 					this.onSwipedLeft(toValue);
-				}
-			}
+				};
+			};
+		};
+	};
 
-		}
-	}
+	handlePanResponderEnd = (e, gestureState) => {
+		if(!this.horizontalSwipeGestureEnded) this.closeRow();
+	};
 
-	handlePanResponderEnd(e, gestureState) {
-
-		if(!this.horizontalSwipeGestureEnded)
-			this.closeRow();
-
-		console.log(TAG, this.horizontalSwipeGestureEnded);
-	}
-
-	closeRow() {
-		console.log(TAG, 'close row called');
+	closeRow = () => {
 		if(this.rowItemJustSwiped) {
 			this.forceCloseRow();
 		}else {
 			this.manuallySwipeRow(0);
-		}
-	}
+		};
+	};
 
 	forceCloseRow = () => {
 		Animated.timing(
@@ -153,7 +134,7 @@ class SwipeRow extends Component {
 				toValue: 0,
 			}
 		).start();
-	}
+	};
 
 	onSwipedLeft = (toValue) => {
 		const {onSwipedLeft} = this.props;
@@ -162,11 +143,10 @@ class SwipeRow extends Component {
 		this.rowItemJustSwiped = true;
 
 		this.manuallySwipeRow(toValue).then(() => {
-			if(onSwipedLeft)
-				onSwipedLeft();
+			if(onSwipedLeft) onSwipedLeft();
 			this.closeRow();
 		});
-	}
+	};
 
 	onSwipedRight = (toValue) => {
 		const {onSwipedRight} = this.props;
@@ -175,17 +155,15 @@ class SwipeRow extends Component {
 		this.rowItemJustSwiped = true;
 
 		this.manuallySwipeRow(toValue).then(() => {
-			if(onSwipedRight)
-				onSwipedRight();
+			if(onSwipedRight) onSwipedRight();
 			this.closeRow();
 		});
-	}
+	};
 
-	manuallySwipeRow(toValue) {
+	manuallySwipeRow = (toValue) => {
 
 		return new Promise((resolve,reject) => {
 
-			console.log(TAG, "launching animation");
 			Animated.timing(
 				this._translateX,
 				{
@@ -193,9 +171,6 @@ class SwipeRow extends Component {
 				 	toValue,
 			 	}
 			).start( _ => {
-				console.log(TAG, "animation over");
-
-				// reset everything
 				this.swipeInitialX = null;
 				this.horizontalSwipeGestureBegan = false;
 				this.horizontalSwipeGestureEnded = false;
@@ -203,7 +178,7 @@ class SwipeRow extends Component {
 				resolve();
 			});
 		});
-	}
+	};
 
 	renderVisibleContent = () => {
 		return (
@@ -211,9 +186,8 @@ class SwipeRow extends Component {
 		);
 	};
 
-	renderRowContent() {
-		// We do this annoying if statement for performance.
-		// We don't want the onLayout func to run after it runs once.
+	renderRowContent = () => {
+
 		if (this.state.dimensionsSet) {
 			return (
 				<Animated.View
@@ -241,8 +215,8 @@ class SwipeRow extends Component {
 					{this.renderVisibleContent()}
 				</Animated.View>
 			);
-		}
-	}
+		};
+	};
 
 	render() {
 		return (
@@ -254,15 +228,15 @@ class SwipeRow extends Component {
 						width: this.state.hiddenWidth,
 					}
 				]}>
-					{this.state.swipingLeft ? ((this.props.renderRightRow && this.props.renderRightRow()) || null) :
+					{this.swipingLeft ? ((this.props.renderRightRow && this.props.renderRightRow()) || null) :
 						 ((this.props.renderLeftRow && this.props.renderLeftRow()) || null)}
 				</View>
 				{this.renderRowContent()}
 			</View>
 		);
-	}
+	};
 
-}
+};
 
 const styles = StyleSheet.create({
 	hidden: {
@@ -317,7 +291,7 @@ SwipeRow.propTypes = {
 	/**
 	 * Should the row do a slide out preview to show that it is swipeable
 	 */
-	previewFirstRow: PropTypes.bool,
+	previewSwipeDemo: PropTypes.bool,
 	/**
 	 * Duration of the slide out preview animation
 	 */
@@ -326,6 +300,12 @@ SwipeRow.propTypes = {
 	 * TranslateX value for the slide out preview animation
 	 */
 	previewOpenValue: PropTypes.number,
+	/**
+	 * Should swiping initialize with right-to-left
+	 * This should be useful for right-to-left swipe previews
+	 * ex: +ve previewOpenValue swipingLeft: false | -ve previewOpenValue swipingLeft: true
+	 */
+	swipingLeft: PropTypes.bool,
 	/**
 	 * Duration of the slide out swipe animation
 	 */
@@ -346,13 +326,14 @@ SwipeRow.defaultProps = {
 	rightOpenValue: 0,
 	disableLeftSwipe: false,
 	disableRightSwipe: false,
-	previewFirstRow: false,
+	swipingLeft: true,
+	previewSwipeDemo: false,
 	previewDuration: 300,
-	previewOpenValue: 150,
+	previewOpenDelay: 350,
+	previewCloseDelay: 300,
+	previewOpenValue: -60,
 	swipeDuration: 250,
 	swipeToOpenPercent: 35,
 	recalculateHiddenLayout: false,
 	directionalDistanceChangeThreshold: 2,
 };
-
-export default SwipeRow;
