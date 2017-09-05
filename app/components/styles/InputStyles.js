@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 const styles = StyleSheet.create({
   input: {
@@ -7,7 +7,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#526373',
     color: 'white',
     fontSize: 15,
-    borderRadius: 3
+    borderRadius: 3,
+    width: Dimensions.get('window').width * 0.7,
   },
 })
 

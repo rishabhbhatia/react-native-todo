@@ -4,8 +4,8 @@ import { StyleSheet, Platform } from 'react-native';
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    height: 75
+    justifyContent: 'center',
+    padding: 5
   },
   inputContainer: {
     justifyContent: 'center',

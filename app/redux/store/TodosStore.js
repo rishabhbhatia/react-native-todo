@@ -12,7 +12,7 @@ const todosStore = createStore(
   autoRehydrate()
   );
 
-// persistStore(todosStore, {storage: AsyncStorage});
-purgeStoredState({storage: AsyncStorage})  // Clear persistStore
+persistStore(todosStore, {storage: AsyncStorage});
+// purgeStoredState({storage: AsyncStorage})  // Clear persistStore
 
 export default todosStore;
