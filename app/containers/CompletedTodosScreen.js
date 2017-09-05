@@ -4,10 +4,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
 import moment from 'moment';
+import SwipeView from 'react-native-swipeview';
 
 import config from '../config';
-import SwipeRow from '../lib';
 
 import * as TodoActionCreators from '../redux/actions/TodoActionCreators';
 
@@ -38,15 +39,15 @@ class CompletedTodosScreen extends Component {
           enableEmptySections={true}
           ItemSeparatorComponent={() => <View style={commonStyles.separator} />}
           renderItem={({item, index}) => (
-            <SwipeRow
-              renderItem={() => (
+            <SwipeView
+              renderVisibleContent={() => (
                 <TodoRowItem
                   todo={{...item}}
                   index={index}
                   time={moment().endOf('hour').fromNow()}
                 />
               )}
-              renderRightRow={() => (
+              renderRightView={() => (
         				<View style={commonStyles.rowRight}>
                    <Icon
                       style={commonStyles.icon}
@@ -55,10 +56,10 @@ class CompletedTodosScreen extends Component {
                     />
         				</View>
         			)}
+              rightOpenValue={this.rightOpenValue}
               swipeDuration={config.constants.row_swipe_duration}
               swipeToOpenPercent={config.constants.row_swipe_open_percent}
-              disableRightSwipe={config.constants.completed_todos_screen.disable_right_swipe}
-              rightOpenValue={this.rightOpenValue}
+              disableSwipeToRight={config.constants.completed_todos_screen.disable_right_swipe}
               onSwipedLeft={() => deleteCompletedTodo(index)}
             />
           )}

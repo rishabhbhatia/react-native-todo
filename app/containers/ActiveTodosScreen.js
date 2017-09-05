@@ -4,10 +4,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
 import moment from 'moment';
+import SwipeView from 'react-native-swipeview';
 
 import config from '../config';
-import SwipeRow from '../lib';
 
 import * as TodoActionCreators from '../redux/actions/TodoActionCreators';
 
@@ -54,15 +55,15 @@ class ActiveTodosScreen extends Component {
           enableEmptySections={true}
           ItemSeparatorComponent={() => <View style={commonStyles.separator} />}
           renderItem={({item, index}) => (
-            <SwipeRow
-              renderItem={() => (
+            <SwipeView
+              renderVisibleContent={() => (
                 <TodoRowItem
                   todo={{...item}}
                   index={index}
                   time={moment().startOf('hour').fromNow()}
                 />
               )}
-              renderLeftRow={() => (
+              renderLeftView={() => (
         				<View style={commonStyles.rowLeft}>
                   <Icon
                      style={commonStyles.icon}
@@ -71,7 +72,7 @@ class ActiveTodosScreen extends Component {
                    />
         				</View>
         			)}
-              renderRightRow={() => (
+              renderRightView={() => (
         				<View style={commonStyles.rowRight}>
                    <Icon
                       style={commonStyles.icon}
@@ -80,10 +81,10 @@ class ActiveTodosScreen extends Component {
                     />
         				</View>
         			)}
-              swipeDuration={config.constants.row_swipe_duration}
-              swipeToOpenPercent={config.constants.row_swipe_open_percent}
               leftOpenValue={this.leftOpenValue}
               rightOpenValue={this.rightOpenValue}
+              swipeDuration={config.constants.row_swipe_duration}
+              swipeToOpenPercent={config.constants.row_swipe_open_percent}
               onSwipedLeft={() => deleteActiveTodo(index)}
               onSwipedRight={() => {
                 completeTodo(index);
