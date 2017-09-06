@@ -48,13 +48,13 @@ class CompletedTodosScreen extends Component {
                 />
               )}
               renderRightView={() => (
-        				<View style={commonStyles.rowRight}>
+                <View style={commonStyles.rowRight}>
                    <Icon
                       style={commonStyles.icon}
                       name={config.icons.times}
                       size={config.constants.hidden_row_icon_size}
                     />
-        				</View>
+                </View>
         			)}
               rightOpenValue={this.rightOpenValue}
               swipeDuration={config.constants.row_swipe_duration}

@@ -64,22 +64,22 @@ class ActiveTodosScreen extends Component {
                 />
               )}
               renderLeftView={() => (
-        				<View style={commonStyles.rowLeft}>
+                <View style={commonStyles.rowLeft}>
                   <Icon
                      style={commonStyles.icon}
                      name={config.icons.check}
                      size={config.constants.hidden_row_icon_size}
                    />
-        				</View>
+                </View>
         			)}
               renderRightView={() => (
-        				<View style={commonStyles.rowRight}>
+                <View style={commonStyles.rowRight}>
                    <Icon
                       style={commonStyles.icon}
                       name={config.icons.times}
                       size={config.constants.hidden_row_icon_size}
                     />
-        				</View>
+                </View>
         			)}
               leftOpenValue={this.leftOpenValue}
               rightOpenValue={this.rightOpenValue}
